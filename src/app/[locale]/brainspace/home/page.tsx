@@ -12,7 +12,7 @@ const home = () => {
     <div className='overflow-hidden'>
       <Quotes />
       <Modules />
-      <Page/>
+ 
     </div>
   )
 }

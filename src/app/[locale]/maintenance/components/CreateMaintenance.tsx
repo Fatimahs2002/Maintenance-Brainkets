@@ -135,7 +135,7 @@ const CreateMaintenance = () => {
             }}
             placeholder="Description"
             className="w-full p-2 rounded-lg bg-gray-100"
-            rows={5}
+            rows={4}
           />
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
@@ -194,17 +194,17 @@ const CreateMaintenance = () => {
   chooseOptions={{
     label: "Choose",
     icon: "pi pi-plus",
-    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:border-none" ,
+    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" ,
   }}
   uploadOptions={{
     label: "Upload",
     icon: "pi pi-upload",
-    className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 hover:border-none",
+    className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
   }}
   cancelOptions={{
     label: "Clear",
     icon: "pi pi-times",
-    className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600  hover:border-none",
+    className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:shadow-none",
   }}
   onSelect={(e) => {
     setFileSelected(e.files.length > 0);
@@ -236,7 +236,7 @@ const CreateMaintenance = () => {
         <Button
           label="Add Maintenance"
           onClick={handleSubmit}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 hover:border-0"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
         />
         <Button
         onClick={() => {
@@ -255,7 +255,7 @@ const CreateMaintenance = () => {
         }}
           label="Cancel"
           
-          className="bg-gray-300 text-white px-4 py-2 rounded-md hover:bg-gray-400 hover:border-none focus:border-none"
+          className="bg-gray-300 text-white px-4 py-2 rounded-md hover:bg-gray-400  focus:shadow-none "
         />
       </div>
     </div>
