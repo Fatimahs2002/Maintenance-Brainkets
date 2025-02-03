@@ -8,6 +8,7 @@ import { FileUpload } from "primereact/fileupload";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
+import { classNames } from "primereact/utils";
 
 type Errors = {
   title?: string;
@@ -28,6 +29,7 @@ const CreateMaintenance = () => {
   const fileUploadRef = useRef<FileUpload>(null);
   const [fileSelected, setFileSelected] = useState(false);
   const [fileUploaded, setFileUploaded] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const PriorityOption = [
     { label: "High", value: "high" },
@@ -83,7 +85,9 @@ const CreateMaintenance = () => {
       console.log("New Maintenance Submitted");
     }
   };
-
+ 
+    
+  
   return (
     <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl">
       <h2 className="text-center text-lg font-semibold mb-4">New Maintenance</h2>
@@ -187,14 +191,13 @@ const CreateMaintenance = () => {
         <FileUpload
   ref={fileUploadRef}
   name="demo[]"
-  // url="/api/upload"
   multiple
   accept="image/*"
   maxFileSize={1000000}
   chooseOptions={{
     label: "Choose",
     icon: "pi pi-plus",
-    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" ,
+    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none",
   }}
   uploadOptions={{
     label: "Upload",
@@ -206,27 +209,43 @@ const CreateMaintenance = () => {
     icon: "pi pi-times",
     className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:shadow-none",
   }}
+  removeIcon="pi pi-times rounded-none focus:outline-none focus:ring-0"
   onSelect={(e) => {
-    setFileSelected(e.files.length > 0);
-    setFileUploaded(false); // Reset uploaded state when new file is selected
-  
+    setSelectedFiles([...selectedFiles, ...e.files]);
+    setFileSelected(true);
+    setFileUploaded(false);
   }}
-  onUpload={(e) => {
+  onUpload={() => {
     setFileUploaded(true);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      file: undefined, // Remove file error after upload
+      file: undefined,
     }));
   }}
+ 
+  onRemove={(event) => {
+    const updatedFiles = selectedFiles.filter(file => file.name !== event.file.name);
+    setSelectedFiles(updatedFiles);
+    if (updatedFiles.length === 0) {
+      setFileSelected(false);
+      setErrors((prevErrors) => ({
+        ...prevErrors,
+        file: undefined,
+      }));
+    }
+  }}
   onClear={() => {
+    setSelectedFiles([]);
     setFileSelected(false);
     setFileUploaded(false);
     setErrors((prevErrors) => ({
       ...prevErrors,
-      file: undefined, // Remove file error if the file is cleared
+      file: undefined,
     }));
   }}
-  className="w-full bg-gray-100 rounded-lg "
+  className="w-full bg-gray-100 rounded-lg   [&_.p-fileupload-remove]:rounded-none 
+    [&_.p-fileupload-remove]:focus:rounded-none 
+    [&_.p-fileupload-remove]:focus:ring-0"
 />
 
         {errors.file && <p className="text-red-500 text-sm">{errors.file}</p>}
@@ -263,4 +282,8 @@ const CreateMaintenance = () => {
 };
 
 export default CreateMaintenance;
+
+// function elseif(fileSelected: boolean) {
+//   throw new Error("Function not implemented.");
+// }
 

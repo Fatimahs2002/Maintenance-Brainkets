@@ -76,7 +76,6 @@ const UpdateMaintenance = () => {
   };
 const HandelRemoveFile=()=>{
   setFilePreview("");
-
 }
 
   return (
@@ -191,12 +190,12 @@ const HandelRemoveFile=()=>{
       <div className="mt-4">
         <label className="block mb-1 font-medium">Upload Files</label>
         <FileUpload
-          ref={fileUploadRef}
-          name="demo[]"
+          // ref={fileUploadRef}
+          // name="demo[]"
           // url="/api/upload"
           multiple
-          accept="image/*"
-          maxFileSize={1000000}
+          // accept="image/*"
+          // maxFileSize={1000000}
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
@@ -212,11 +211,11 @@ const HandelRemoveFile=()=>{
             icon: "pi pi-times",
             className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600  focus:shadow-none",
           }}
-          onSelect={(e) => {
-            setFileSelected(e.files.length > 0);
-            setFileUploaded(false); // Reset uploaded state when new file is selected
+          // onSelect={(e) => {
+          //   setFileSelected(e.files.length > 0);
+          //   setFileUploaded(false); // Reset uploaded state when new file is selected
           
-          }}
+          // }}
           onUpload={(e) => {
             setFileUploaded(true);
             setErrors((prevErrors) => ({
@@ -224,6 +223,7 @@ const HandelRemoveFile=()=>{
               file: undefined, // Remove file error after upload
             }));
           }}
+          
           onClear={() => {
             setFileSelected(false);
             setFileUploaded(false);

@@ -12,8 +12,8 @@ const home = () => {
     <div className='overflow-hidden'>
       <Quotes />
       <Modules />
- 
-    </div>
+     
+    </div>     
   )
 }
 
