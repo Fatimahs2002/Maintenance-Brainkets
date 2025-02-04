@@ -8,7 +8,7 @@ import { FileUpload } from "primereact/fileupload";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import { classNames } from "primereact/utils";
+
 
 type Errors = {
   title?: string;
@@ -188,6 +188,25 @@ const CreateMaintenance = () => {
         <label className="block mb-1 font-medium">
           Upload Files 
         </label>
+        <style>
+  {`
+    .p-fileupload-filename  {
+      display: none; /* Hides the file details */
+    }
+      .p-fileupload-file-thumbnail{
+      width: 5rem;  /* Tailwind w-20 (20 * 0.25rem) = 5rem = 80px */
+      height: 5rem;
+      border-radius: 0.375rem
+      }
+     button:focus{
+
+  box-shadow:none;
+  }
+  .p-fileupload-row{
+  padding-top:10px;
+  }
+  `}
+</style>
         <FileUpload
   ref={fileUploadRef}
   name="demo[]"

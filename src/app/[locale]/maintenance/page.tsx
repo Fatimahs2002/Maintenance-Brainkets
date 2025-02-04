@@ -6,8 +6,8 @@ import UpadateMaintenance from './components/UpdateMaintenance';
 const Page = () => {
   return (
     <div >
-     {/* <CreateMaintenance/> */}
-    <UpadateMaintenance /> 
+     <CreateMaintenance/>
+    {/* <UpadateMaintenance />  */}
 
     </div>
   )

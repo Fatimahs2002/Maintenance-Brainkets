@@ -30,12 +30,13 @@ const UpdateMaintenance = () => {
 
   const fileUploadRef = useRef<FileUpload>(null);
   const [fileSelected, setFileSelected] = useState(false);
-
+  const [fileUploaded, setFileUploaded] = useState<boolean>(false);
    const initialImageUrl: string = "/DALL·E 2025-02-02 18.15.02 - A professional and clean image of a software maintenance task being done by a developer. The image should feature a person sitting at a desk with a la.webp"; // Ensure the path is correct
   
    // const initialImageUrl: string = ""; 
   const [filePreview, setFilePreview] = useState<string>(initialImageUrl);
-  const [fileUploaded, setFileUploaded] = useState<boolean>(false);
+  //for remove icon
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const PriorityOption = [
     { label: "High", value: "high" },
@@ -67,7 +68,11 @@ const UpdateMaintenance = () => {
     if (!description) formErrors.description = "Description is required";
     if (!selectedAssignedTo) formErrors.assignedTo = "Assign To is required";
     if (!selectedCustomer) formErrors.customer = "Customer is required";
-    if (fileSelected && !fileUploaded) formErrors.file = "You must upload the selected file";
+    
+    if((fileSelected) && (!fileUploaded)){
+      formErrors.file = "You must upload the selected file";
+  
+    }
 
     setErrors(formErrors);
     if (Object.keys(formErrors).length === 0) {
@@ -189,13 +194,35 @@ const HandelRemoveFile=()=>{
 )}
       <div className="mt-4">
         <label className="block mb-1 font-medium">Upload Files</label>
+        <style>
+  {`
+    .p-fileupload-filename  {
+      display: none; /* Hides the file details */
+    }
+      .p-fileupload-file-thumbnail{
+      width: 5rem;  /* Tailwind w-20 (20 * 0.25rem) = 5rem = 80px */
+      height: 5rem;
+      border-radius: 0.375rem
+      }
+     button:focus{
+
+  box-shadow:none;
+  }
+  .p-fileupload-row{
+  padding-top:10px;
+  }
+  `}
+</style>
         <FileUpload
-          // ref={fileUploadRef}
+          ref={fileUploadRef}
           // name="demo[]"
-          // url="/api/upload"
+          url="/api/upload"
           multiple
-          // accept="image/*"
-          // maxFileSize={1000000}
+          
+          accept="image/*"
+          maxFileSize={1000000}
+        
+       
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
@@ -211,11 +238,13 @@ const HandelRemoveFile=()=>{
             icon: "pi pi-times",
             className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600  focus:shadow-none",
           }}
-          // onSelect={(e) => {
-          //   setFileSelected(e.files.length > 0);
-          //   setFileUploaded(false); // Reset uploaded state when new file is selected
-          
-          // }}
+          onSelect={(e) => {
+            // setFileSelected(e.files.length > 0);
+            // setFileUploaded(false); // Reset uploaded state when new file is selected
+            setSelectedFiles([...selectedFiles, ...e.files]);
+            setFileSelected(true);
+            setFileUploaded(false);
+          }}
           onUpload={(e) => {
             setFileUploaded(true);
             setErrors((prevErrors) => ({
@@ -223,7 +252,17 @@ const HandelRemoveFile=()=>{
               file: undefined, // Remove file error after upload
             }));
           }}
-          
+          onRemove={(event) => {
+            const updatedFiles = selectedFiles.filter(file => file.name !== event.file.name);
+            setSelectedFiles(updatedFiles);
+            if (updatedFiles.length === 0) {
+              setFileSelected(false);
+              setErrors((prevErrors) => ({
+                ...prevErrors,
+                file: undefined,
+              }));
+            }
+          }}
           onClear={() => {
             setFileSelected(false);
             setFileUploaded(false);
@@ -232,7 +271,7 @@ const HandelRemoveFile=()=>{
               file: undefined, // Remove file error if the file is cleared
             }));
           }}
-          className="w-full bg-gray-100 rounded-lg "
+          className="w-full bg-gray-100 rounded-lg  "
           
         />
         
