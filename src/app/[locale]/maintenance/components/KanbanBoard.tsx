@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "primereact/card";
@@ -5,6 +6,7 @@ import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import 'primeicons/primeicons.css';
+import SearchFilterAdd from "./SearchFilterAdd";
 interface MaintenanceTask {
   id: number;
   title: string;
@@ -102,9 +104,9 @@ const KanbanBoard: React.FC = () => {
   return (
     <>
     <div >
-    <div className="">
+    <div className="mt-10">
         <Toast ref={toast} position="top-right" />
-     
+       <SearchFilterAdd />
       </div>
       <ConfirmDialog /> {/* ✅ Only One Global Dialog */}
 
