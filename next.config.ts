@@ -17,6 +17,10 @@ const nextConfig: NextConfig = {
 const withNextIntl = createNextIntlPlugin('./i18n/request.ts'); // Updated path
 
 export default withNextIntl(nextConfig);
+export interface DeleteMaintenanceProps {
+     id: string | number;
+     onDelete: (id: string | number) => void;
+}
 // import type { NextConfig } from "next";
 
 // // Next.js configuration options

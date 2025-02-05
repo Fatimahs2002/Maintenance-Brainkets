@@ -85,7 +85,7 @@ const HandelRemoveFile=()=>{
 
   return (
     
-    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl">
+    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl mt-11">
       <h2 className="text-center text-lg font-semibold mb-4">Update Maintenance</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

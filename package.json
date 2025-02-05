@@ -9,9 +9,11 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^17.0.0",
     "@reduxjs/toolkit": "^2.5.0",
     "@tailwindcss/vite": "^4.0.1",
     "@tsparticles/engine": "^3.7.1",
+    "@types/react-beautiful-dnd": "^13.1.8",
     "axios": "^1.7.9",
     "cookies-next": "^5.0.2",
     "dayjs": "^1.11.13",

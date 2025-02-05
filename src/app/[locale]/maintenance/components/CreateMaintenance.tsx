@@ -89,7 +89,7 @@ const CreateMaintenance = () => {
     
   
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl">
+    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl mt-11">
       <h2 className="text-center text-lg font-semibold mb-4">New Maintenance</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -139,7 +139,7 @@ const CreateMaintenance = () => {
             }}
             placeholder="Description"
             className="w-full p-2 rounded-lg bg-gray-100"
-            rows={4}
+            rows={5}
           />
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
