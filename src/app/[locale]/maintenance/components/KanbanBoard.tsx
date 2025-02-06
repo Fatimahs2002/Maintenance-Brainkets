@@ -3,23 +3,26 @@ import React, { useState, useRef } from "react";
 import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { ConfirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import 'primeicons/primeicons.css';
 import SearchFilterAdd from "./SearchFilterAdd";
+import DeleteMaintenance from "./DeleteMaintenance";
+
 interface MaintenanceTask {
   id: number;
   title: string;
   date: string;
   priority: string;
+  CustomerName: string;
 }
 
 const initialTasks: { [key: string]: MaintenanceTask[] } = {
   pending: [
-    { id: 1, title: "Fix Server Issue", priority: "medium", date: "04-Feb-25" },
-    { id: 2, title: "Update Database Schema", priority: "high", date: "06-Feb-25" },
-    { id: 3, title: "Bug Fix: User Authentication", priority: "low", date: "08-Feb-25" },
-    { id: 4, title: "Optimize API Performance", priority: "medium", date: "10-Feb-25" },
+    { id: 1, title: "Fix Server Issue", priority: "medium", CustomerName: "Ali", date: "04-Feb-25" },
+    { id: 2, title: "Update Database Schema", priority: "high", CustomerName: "Hassan", date: "06-Feb-25" },
+    { id: 3, title: "Bug Fix: User Authentication", priority: "low", CustomerName: "Mark", date: "08-Feb-25" },
+    { id: 4, title: "Optimize API Performance", priority: "medium", CustomerName: "Jad", date: "10-Feb-25" },
   ],
   inProgress: [],
   completed: [],
@@ -30,148 +33,109 @@ const KanbanBoard: React.FC = () => {
   const toast = useRef<Toast>(null);
   const [selectedTaskId, setSelectedTaskId] = useState<number | null>(null);
 
-  const handleDelete = (id: number) => {
-    setTasks((prev) => {
-      const updatedTasks = { ...prev };
-      for (const column in updatedTasks) {
-        updatedTasks[column] = updatedTasks[column].filter((task) => task.id !== id);
-      }
-      return updatedTasks;
-    });
+  const onDragEnd = (result: any) => {
+    const { destination, source } = result;
 
-    toast.current?.show({
-      // severity: "info",
-      // summary: "Deleted",
-      // detail: "Task successfully deleted.",
-      // className: "rounded-lg shadow-lg p-6 border border-gray-200 bg-white",
-      // life: 3000,
-      severity: "info",
-    summary: (
-      <div className="rounded-lg shadow-lg p-6 border border-gray-200 bg-white">
-        <div>
-        <i className="pi pi-check-circle text-green-500 text-xl"></i>
-        <span className="font-semibold text-black ml-2 text-xl">Deleted</span>
-      
-        
-        </div>
-        <span>Task deleted successfully</span>
-      </div>
-    ),
-   
-    life: 3000,
-    });
-  };
+    // If the task is dropped outside of any droppable area, return early
+    if (!destination) {
+      return;
+    }
 
-  const confirmDelete = (id: number) => {
-    setSelectedTaskId(id);
-    confirmDialog({
-      header: (
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-gray-800">Delete Task</span>
-        </div>
-      ),
-      message: (
-        <div className="flex items-center gap-4">
-       
-          <span className="text-lg font-medium text-gray-700">
-            Are you sure you want to delete this task?
-          </span>
-        </div>
-      ),
-      className: "rounded-lg shadow-lg p-6 border border-gray-200 bg-white",
-      acceptClassName: "p-button-danger bg-red-500 border-red-600 text-white px-4 py-2 rounded-lg shadow-md ml-3 mt-1",
-      rejectClassName: "p-button-secondary bg-gray-300 text-gray-700 px-4 py-2  rounded-lg shadow-md mt-1",
-      accept: () => handleDelete(id),
-      reject: () => {
-        toast.current?.show({
-          severity: "warn",
-          summary: (
-            <div className="rounded-lg shadow-lg p-6 border border-gray-200 bg-white">
-              <div className="flex items-center">
-                <i className="pi pi-times-circle text-red-500 text-2xl"></i>
-                <span className="font-semibold text-black ml-3 text-xl">Cancelled</span>
-              </div>
-              <span className="text-sm">Task was not deleted.</span>
-            </div>
-          ),
-          life: 3000,
-        });
-      },
-      
+    // If the task is dropped in the same position, return early
+    if (destination.droppableId === source.droppableId && destination.index === source.index) {
+      return;
+    }
+
+    // Move the task from one column to another
+    const startColumn = source.droppableId;
+    const endColumn = destination.droppableId;
+    const movedTask = tasks[startColumn][source.index];
+
+    const newStartTasks = Array.from(tasks[startColumn]);
+    newStartTasks.splice(source.index, 1); // Remove the task from the start column
+
+    const newEndTasks = Array.from(tasks[endColumn]);
+    newEndTasks.splice(destination.index, 0, movedTask); // Add the task to the end column
+
+    setTasks({
+      ...tasks,
+      [startColumn]: newStartTasks,
+      [endColumn]: newEndTasks,
     });
   };
 
   return (
     <>
-    <div >
-    <div className="mt-10">
-        <Toast ref={toast} position="top-right" />
-       <SearchFilterAdd />
-      </div>
-      <ConfirmDialog /> {/* ✅ Only One Global Dialog */}
-
-      <DragDropContext onDragEnd={() => {}}>
-        <div className="flex gap-4 p-6">
-       
-          {Object.entries(tasks).map(([columnId, columnTasks]) => (
-            <Droppable key={columnId} droppableId={columnId}>
-              {(provided) => (
-                <div ref={provided.innerRef} {...provided.droppableProps} className="w-1/3 bg-gray-200 p-4 rounded-lg min-h-20">
-                  <h2 className="text-lg font-bold mb-3 capitalize">{columnId}</h2>
-                  {columnTasks.map((task, index) => (
-                    <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
-                      {(provided) => (
-                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Card className="mb-3 p-3 bg-white shadow-md rounded-md">
-                            <div className="flex items-center gap-2">
-                              <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <h1 className="font-bold">Priority:</h1> <span>{task.priority}</span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <h1 className="font-bold">Date:</h1> <span>{task.date}</span>
-                            </div>
-                            <div className="flex items-center gap-2 justify-end">
-                            
-                              <Button
-                                
-                                icon="pi pi-eye  cursor-pointer"
-                                label=""
-                                className="text-xl"
-                                style={{ fontSize: '1.5rem' }}
-
-                              />
-                               <Button
-                               
-                                icon="pi pi-pen-to-square  cursor-pointer"
-                                label=""
-                                className="text-xl"
-                              />
-                              <Button
-                                onClick={() => confirmDelete(task.id)}
-                                icon="pi pi-trash"
-                                label=""
-                                className="text-xl text-red-500"
-                              />
-                            </div>
-                          </Card>
-                        </div>
-                      )}
-                    </Draggable>
-                  ))}
-                  {provided.placeholder}
-                </div>
-              )}
-            </Droppable>
-          ))}
+      <div>
+        <div className="mt-10">
+          <Toast ref={toast} position="top-right" />
+          <SearchFilterAdd />
         </div>
-      </DragDropContext>
+        <ConfirmDialog /> {/* ✅ Only One Global Dialog */}
+
+        <DragDropContext onDragEnd={onDragEnd}>
+          <div className="flex gap-4 p-6">
+            {Object.entries(tasks).map(([columnId, columnTasks]) => (
+              <Droppable key={columnId} droppableId={columnId}>
+                {(provided) => (
+                  <div
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                    className="w-1/3 bg-gray-200 p-4 rounded-lg min-h-20"
+                  >
+                    <h2 className="text-lg font-bold mb-3 capitalize">{columnId}</h2>
+                    {columnTasks.map((task, index) => (
+                      <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
+                        {(provided) => (
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
+                            <Card className="mb-3 p-3 bg-white shadow-md rounded-md">
+                              <div className="flex items-center gap-2">
+                                <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <h1 className="font-bold">Priority:</h1> <span>{task.priority}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <h1 className="font-bold">CustomerName:</h1> <span>{task.CustomerName}</span>
+                              </div>
+                              <div className="flex items-center gap-2">
+                                <h1 className="font-bold">Date:</h1> <span>{task.date}</span>
+                              </div>
+                              <div className="flex items-center gap-2 justify-end">
+                                <Button
+                                  icon="pi pi-eye cursor-pointer"
+                                  label=""
+                                  className="text-xl"
+                                  style={{ fontSize: '1.5rem' }}
+                                />
+                                <Button
+                                  icon="pi pi-pen-to-square cursor-pointer"
+                                  label=""
+                                  className="text-xl"
+                                />
+                                <DeleteMaintenance id={task.id} />
+                              </div>
+                            </Card>
+                          </div>
+                        )}
+                      </Draggable>
+                    ))}
+                    {provided.placeholder}
+                  </div>
+                )}
+              </Droppable>
+            ))}
+          </div>
+        </DragDropContext>
       </div>
     </>
-   
   );
 };
 
 export default KanbanBoard;
+
 
