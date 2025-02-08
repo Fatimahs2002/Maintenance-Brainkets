@@ -6,6 +6,7 @@ import Loader from "@/common/loader/loader";
 
 
 const HomePage = () => {
+  
   const router = useRouter();
 
   const [loading, setLoading] = useState(true); // State to handle page rendering

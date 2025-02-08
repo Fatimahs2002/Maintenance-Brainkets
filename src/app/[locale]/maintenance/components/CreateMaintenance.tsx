@@ -19,7 +19,7 @@ type Errors = {
   file?: string;
 };
 
-const CreateMaintenance = () => {
+const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
   const [selectedPriority, setSelectedPriority] = useState<string | null>(null);
   const [selectedCustomer, setSelectedCustomer] = useState<string | null>(null);
   const [selectedAssignedTo, setSelectedAssignedTo] = useState<string | null>(null);
@@ -89,7 +89,7 @@ const CreateMaintenance = () => {
     
   
   return (
-    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl mt-11">
+    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl mt-11">
       <h2 className="text-center text-lg font-semibold mb-4">New Maintenance</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -216,12 +216,12 @@ const CreateMaintenance = () => {
   chooseOptions={{
     label: "Choose",
     icon: "pi pi-plus",
-    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none",
+    className: "bg-amber-300 hover:bg-amber-400 text-white px-4 py-2 rounded-lg focus:shadow-none",
   }}
   uploadOptions={{
     label: "Upload",
     icon: "pi pi-upload",
-    className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
+    className: " bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
   }}
   cancelOptions={{
     label: "Clear",
@@ -274,7 +274,9 @@ const CreateMaintenance = () => {
         <Button
           label="Add Maintenance"
           onClick={handleSubmit}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
+          className="bg-amber-300
+         hover:bg-amber-400
+          text-white px-4 py-2 rounded-lg focus:shadow-none"
         />
         <Button
         onClick={() => {
@@ -290,6 +292,7 @@ const CreateMaintenance = () => {
           // setFilePreview(null);
           // Also clear any errors if needed
           setErrors({});
+          onClose()
         }}
           label="Cancel"
           

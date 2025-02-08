@@ -1,42 +1,20 @@
 "use client";
-import React, { useState, useRef } from "react";
+import React, { useRef } from "react";
 import { Toast } from "primereact/toast";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 
 interface DeleteMaintenanceProps {
-  id: number;
+  onDelete: () => void;
 }
 
-const DeleteMaintenance: React.FC<DeleteMaintenanceProps> = ({ id }) => {
-  const [tasks, setTasks] = useState<{ [key: string]: { id: number; name: string }[] }>({});
-  const toast = useRef<any>(null);
+const DeleteMaintenance: React.FC<DeleteMaintenanceProps> = ({ onDelete }) => {
+  const toast = useRef<Toast>(null);
 
-  const handleDelete = (id: number) => {
-    setTasks((prev) => {
-      const updatedTasks = { ...prev };
-      for (const column in updatedTasks) {
-        updatedTasks[column] = updatedTasks[column].filter((task) => task.id !== id);
-      }
-      return updatedTasks;
-    });
-
-    toast.current?.show({
-      severity: "info",
-      summary: (
-        <div className="rounded-lg shadow-lg p-6 border border-gray-200 bg-white">
-          <div>
-            <i className="pi pi-check-circle text-green-500 text-xl"></i>
-            <span className="font-semibold text-black ml-2 text-xl">Deleted</span>
-          </div>
-          <span>Task deleted successfully</span>
-        </div>
-      ),
-      life: 3000,
-    });
-  };
-
-  const confirmDelete = (id: number) => {
+  const confirmDelete = () => {
     confirmDialog({
       header: (
         <div className="flex items-center gap-3">
@@ -51,23 +29,30 @@ const DeleteMaintenance: React.FC<DeleteMaintenanceProps> = ({ id }) => {
         </div>
       ),
       className: "rounded-lg shadow-lg p-6 border border-gray-200 bg-white",
-      acceptClassName: "p-button-danger bg-red-500 border-red-600 text-white px-4 py-2 rounded-lg shadow-md ml-3 mt-1",
-      rejectClassName: "p-button-secondary bg-gray-300 text-gray-700 px-4 py-2  rounded-lg shadow-md mt-1",
-      accept: () => handleDelete(id),
+      acceptClassName:
+        "p-button-danger bg-red-500 border-red-600 text-white px-4 py-2 rounded-lg shadow-md ml-3 mt-1",
+      rejectClassName:
+        "p-button-secondary bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-md mt-1",
+      accept: () => {
+        onDelete(); // Call onDelete when confirmed
+        if (toast.current) {
+          toast.current.show({
+            severity: "info",
+            summary: "Task Deleted",
+            detail: "The task has been successfully deleted.",
+            life: 3000,
+          });
+        }
+      },
       reject: () => {
-        toast.current?.show({
-          severity: "warn",
-          summary: (
-            <div className="rounded-lg shadow-lg p-6 border border-gray-200 bg-white">
-              <div className="flex items-center">
-                <i className="pi pi-times-circle text-red-500 text-2xl"></i>
-                <span className="font-semibold text-black ml-3 text-xl">Cancelled</span>
-              </div>
-              <span className="text-sm">Task was not deleted.</span>
-            </div>
-          ),
-          life: 3000,
-        });
+        if (toast.current) {
+          toast.current.show({
+            severity: "warn",
+            summary: "Cancelled",
+            detail: "Task was not deleted.",
+            life: 3000,
+          });
+        }
       },
     });
   };
@@ -77,15 +62,12 @@ const DeleteMaintenance: React.FC<DeleteMaintenanceProps> = ({ id }) => {
       <Toast ref={toast} position="top-right" />
       <ConfirmDialog />
       <Button
-        onClick={() => confirmDelete(id)} // Use the id prop passed to the component
+        onClick={confirmDelete}
         icon="pi pi-trash"
-        label=""
-        className="text-xl text-red-500"
+        className="text-xl text-red-500 focus:shadow-none"
       />
     </>
   );
 };
 
 export default DeleteMaintenance;
-
-

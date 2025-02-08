@@ -1,68 +1,70 @@
-
 import { useState } from "react";
-import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
-import { Dropdown } from "primereact/dropdown";
+import { Dropdown, DropdownChangeEvent } from "primereact/dropdown";
+import { InputText } from "primereact/inputtext";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
+import CreateMaintenance from "./CreateMaintenance"; // Import component
 
-const SearchFilterAdd = () => {
+import { Dialog } from "primereact/dialog";
+interface PriorityOption {
+  label: string;
+  value: string;
+}
 
-  const [searchTerm, setSearchTerm] = useState("");
-  interface PriorityFilterProps {
-    selectedPriority: string;
-    setSelectedPriority: (priority: string) => void;
-  }
-  const priorityOptions = [
+const SearchFilterAdd: React.FC = () => {
+  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [selectedPriority, setSelectedPriority] = useState<string>("all");
+
+  const [visible, setVisible] = useState<boolean>(false);
+
+  const priorityOptions: PriorityOption[] = [
     { label: "All", value: "all" },
     { label: "High", value: "high" },
     { label: "Medium", value: "medium" },
     { label: "Low", value: "low" },
-   
   ];
-  const[selectedPriority,setSelectedPriority]=useState("ALL")
-  const itemTemplate = (option: any) => {
-    return (
-      <div className="flex items-center gap-2 bg-white border-black">
-        <span className={`priority-${option.value.toLowerCase()}`}>{option.label}</span>
-      </div>
-    );
-  };
-  return (
-    <>
-   
-    <div className="flex items-center justify-between w-full px-5 mt-5">
-  {/* Search Input & Button (Left Side) */}
-  <div className="flex items-center w-auto">
-    
-  <Dropdown
-        value={selectedPriority}
-        options={priorityOptions}
-        itemTemplate={itemTemplate}
-        onChange={(e) => setSelectedPriority(e.value)}
-        optionLabel="label"
-        optionValue="value"
-        className="bg-white h-10 w-40 rounded-s-lg focus:rounded-s-lg border border-gray-300 px-3"
-        placeholder="Select Priority"
-      />
-    <InputText
-      value={searchTerm}
-      onChange={(e) => setSearchTerm(e.target.value)}
-      placeholder="Search..."
-      className="h-10 w-60  border border-gray-300 px-3"
-    />
-    <Button
-      icon="pi pi-search"
-      className="bg-amber-300 hover:bg-amber-200 text-white border border-amber-300 h-10 w-20 rounded-r-lg"
-    />
-  </div>
 
-  {/* Add Maintenance Button (Right Side) */}
-  <Button
-    label="Add Maintenance"
-    className="text-xl bg-amber-300 text-white p-2 rounded-lg"
-    style={{ fontSize: "1.5rem" }}
-  />
-</div>
-</>
+  return (
+    <div className="pl-5">
+      <h1 className="text-xl font-semibold mb-4">All Maintenances</h1>
+
+      <div className="flex items-center gap-4">
+        <Dropdown
+          value={selectedPriority}
+          options={priorityOptions}
+          optionLabel="label"
+          optionValue="value"
+          className="w-40"
+          onChange={(e: DropdownChangeEvent) => setSelectedPriority(e.value)}
+        />
+
+        <InputText
+          value={searchTerm}
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
+          placeholder="Search..."
+          className="h-10 border border-gray-300 px-3 rounded-lg w-64"
+        />
+
+        <Button
+          label="Add Maintenance"
+          className="bg-amber-300 text-white px-4 py-2 rounded-lg focus:shadow-none"
+          onClick={() => {
+            setVisible(true)
+           
+          }}
+        />
+      </div>
+
+      <div className="card flex justify-content-center">
+
+      <Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+               <CreateMaintenance  onClose={() => setVisible(false)} />
+            </Dialog>
+        </div>
+    </div>
+    
   );
 };
 

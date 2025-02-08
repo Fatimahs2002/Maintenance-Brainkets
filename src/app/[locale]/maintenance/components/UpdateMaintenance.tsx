@@ -18,7 +18,7 @@ type Errors = {
   file?: string;
 };
 
-const UpdateMaintenance = () => {
+const UpdateMaintenance = ({ onClose }: { onClose: () => void }) => {
   const [title, setTitle] = useState<string>("Bug Fix: User Authentication");
   const [selectedPriority, setSelectedPriority] = useState<string | null>("medium");
   const [description, setDescription] = useState<string>(
@@ -85,7 +85,7 @@ const HandelRemoveFile=()=>{
 
   return (
     
-    <div className="bg-white p-6 rounded-lg shadow-md w-full mx-auto max-w-3xl mt-11">
+    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl mt-11">
       <h2 className="text-center text-lg font-semibold mb-4">Update Maintenance</h2>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -226,12 +226,12 @@ const HandelRemoveFile=()=>{
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
-            className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" ,
+            className: "bg-amber-300 hover:bg-amber-400 text-white px-4 py-2 rounded-lg focus:shadow-none" ,
           }}
           uploadOptions={{
             label: "Upload",
             icon: "pi pi-upload",
-            className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
+            className: "bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:shadow-none",
           }}
           cancelOptions={{
             label: "Clear",
@@ -279,10 +279,16 @@ const HandelRemoveFile=()=>{
       </div>
 
       <div className="flex justify-between mt-6">
-        <Button label="Update Maintenance" onClick={handleSubmit} className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" />
+        <Button label="Update Maintenance" onClick={handleSubmit} className="bg-amber-300
+         hover:bg-amber-400
+          text-white px-4 py-2 rounded-lg focus:shadow-none" />
         <Button label="Cancel" className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 
         focus:shadow-none
-        " />
+        " 
+      onClick={()=>{
+        onClose()
+      }}
+        />
       </div>
     </div>
   );
