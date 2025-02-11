@@ -17,7 +17,7 @@ const SearchFilterAdd: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState<string>("");
   const [selectedPriority, setSelectedPriority] = useState<string>("all");
 
-  const [visible, setVisible] = useState<boolean>(false);
+  
 
   const priorityOptions: PriorityOption[] = [
     { label: "All", value: "all" },
@@ -38,31 +38,28 @@ const SearchFilterAdd: React.FC = () => {
           optionValue="value"
           className="w-40"
           onChange={(e: DropdownChangeEvent) => setSelectedPriority(e.value)}
+
+          
         />
 
         <InputText
           value={searchTerm}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
           placeholder="Search..."
-          className="h-10 border border-gray-300 px-3 rounded-lg w-64"
+          className="h-10 border border-gray-300 px-3 rounded-lg w-64 focus:rounded-lg"
         />
 
-        <Button
+        {/* <Button
           label="Add Maintenance"
           className="bg-amber-300 text-white px-4 py-2 rounded-lg focus:shadow-none"
           onClick={() => {
             setVisible(true)
            
           }}
-        />
+        /> */}
       </div>
 
-      <div className="card flex justify-content-center">
-
-      <Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
-               <CreateMaintenance  onClose={() => setVisible(false)} />
-            </Dialog>
-        </div>
+   
     </div>
     
   );

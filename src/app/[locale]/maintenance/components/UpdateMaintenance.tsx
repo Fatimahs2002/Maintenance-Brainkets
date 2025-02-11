@@ -231,7 +231,7 @@ const HandelRemoveFile=()=>{
           uploadOptions={{
             label: "Upload",
             icon: "pi pi-upload",
-            className: "bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-gray-600 focus:shadow-none",
+            className: "bg-gray-600 text-white px-4 rounded-md hover:bg-gray-500 focus:shadow-none",
           }}
           cancelOptions={{
             label: "Clear",

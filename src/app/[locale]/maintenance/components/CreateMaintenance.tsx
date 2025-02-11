@@ -122,6 +122,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
             options={PriorityOption}
             optionLabel="label"
             placeholder="Select a Priority"
+         
             className="w-full bg-gray-100 h-10"
           />
           {errors.priority && <p className="text-red-500 text-sm">{errors.priority}</p>}
@@ -139,7 +140,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
             }}
             placeholder="Description"
             className="w-full p-2 rounded-lg bg-gray-100"
-            rows={5}
+            rows={4}
           />
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
@@ -155,6 +156,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
               validateField("assignedTo", e.value);
             }}
             options={assignedToOptions}
+         
             optionLabel="label"
             placeholder="Assign To"
             filter
@@ -221,7 +223,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
   uploadOptions={{
     label: "Upload",
     icon: "pi pi-upload",
-    className: " bg-gray-700 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
+    className: "bg-gray-600 text-white px-4 rounded-md hover:bg-gray-500 focus:shadow-none",
   }}
   cancelOptions={{
     label: "Clear",

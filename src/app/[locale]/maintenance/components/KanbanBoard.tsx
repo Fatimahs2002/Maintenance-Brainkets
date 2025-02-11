@@ -8,9 +8,10 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import SearchFilterAdd from "./SearchFilterAdd";
 import { Dialog } from "primereact/dialog";
 import UpdateMaintenance from "./UpdateMaintenance";
+import IcodAdd from "./IconAdd";
+import IconAdd from "./IconAdd";
 
 interface MaintenanceTask {
   id: number;
@@ -108,6 +109,9 @@ const KanbanBoard: React.FC = () => {
   };
 //for update
 const [visible, setVisible] = useState<boolean>(false)
+
+
+
   return (
     <div>
       <Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
@@ -115,9 +119,7 @@ const [visible, setVisible] = useState<boolean>(false)
             </Dialog>
       <Toast ref={toast} position="top-right" />
       <ConfirmDialog />
-      <div className="mt-10">
-        <SearchFilterAdd />
-      </div>
+    
 
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4 p-6">
@@ -127,9 +129,15 @@ const [visible, setVisible] = useState<boolean>(false)
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="w-1/3 bg-gray-200 p-4 rounded-lg min-h-20"
+                  className="w-1/3 bg-gray-300 p-4 rounded-lg min-h-20 border-gray-300"
+                  
                 >
-                  <h2 className="text-lg font-bold mb-3 capitalize">{columnId}</h2>
+<div className="border-b-2 flex w-full justify-between items-center">
+  <h2 className="text-lg font-bold mb-3 capitalize">{columnId}</h2>
+  <IconAdd />
+</div>
+
+
                   {columnTasks.map((task, index) => (
                     <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                       {(provided) => (
@@ -138,7 +146,7 @@ const [visible, setVisible] = useState<boolean>(false)
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <Card className="mb-3 p-3 bg-white shadow-md rounded-md">
+                          <Card className="mb-3 p-3 bg-white shadow-md rounded-md mt-5">
                             <div className="flex items-center gap-2">
                               <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
                             </div>
@@ -170,6 +178,9 @@ const [visible, setVisible] = useState<boolean>(false)
                                 className="text-xl text-red-500 focus:shadow-none"
                                 onClick={() => confirmDelete(task.id)}
                               />
+                            {columnId === "completed" && (
+  <Button icon="pi pi-book" className="text-xl focus:shadow-none" />
+)}
                             </div>
                           </Card>
                         </div>
