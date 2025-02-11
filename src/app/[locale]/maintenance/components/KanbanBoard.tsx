@@ -133,9 +133,17 @@ const [visible, setVisible] = useState<boolean>(false)
                   
                 >
 <div className="border-b-2 flex w-full justify-between items-center">
-  <h2 className="text-lg font-bold mb-3 capitalize">{columnId}</h2>
-  <IconAdd />
+  <h2 className="text-lg font-bold capitalize">{columnId}</h2>
+  
+  <div className="flex items-center gap-2 mb-1">
+    <IconAdd />
+    <span className="text-gray-600 font-bold bg-white rounded-lg shadow-sm w-10 h-10 text-xl flex items-center justify-center">
+  {columnTasks.length}
+</span>
+
+  </div>
 </div>
+
 
 
                   {columnTasks.map((task, index) => (
