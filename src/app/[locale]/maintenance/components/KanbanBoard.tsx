@@ -26,6 +26,10 @@ const initialTasks: { [key: string]: MaintenanceTask[] } = {
     { id: 2, title: "Update Database Schema", priority: "high", CustomerName: "Hassan", date: "06-Feb-25" },
     { id: 3, title: "Bug Fix: User Authentication", priority: "low", CustomerName: "Mark", date: "08-Feb-25" },
     { id: 4, title: "Optimize API Performance", priority: "medium", CustomerName: "Jad", date: "10-Feb-25" },
+    { id: 5, title: "Fix Server Issue", priority: "medium", CustomerName: "Ali", date: "04-Feb-25" },
+    { id: 6, title: "Update Database Schema", priority: "high", CustomerName: "Hassan", date: "06-Feb-25" },
+    { id: 7, title: "Bug Fix: User Authentication", priority: "low", CustomerName: "Mark", date: "08-Feb-25" },
+    { id: 8, title: "Optimize API Performance", priority: "medium", CustomerName: "Jad", date: "10-Feb-25" },
   ],
   inProgress: [],
   completed: [],
@@ -75,7 +79,7 @@ const KanbanBoard: React.FC = () => {
                 <div
                   ref={provided.innerRef}
                   {...provided.droppableProps}
-                  className="w-1/3 bg-gray-300 p-4 rounded-lg min-h-20 border-gray-300"
+                  className="w-1/3 bg-gray-100 p-4 rounded-lg min-h-20  border-2 "
                   
                 >
 <div className="border-b-2 flex w-full justify-between items-center">
@@ -83,7 +87,7 @@ const KanbanBoard: React.FC = () => {
   
   <div className="flex items-center gap-2 mb-1">
     <IconAdd />
-    <span className="text-gray-600 font-bold bg-white rounded-lg shadow-sm w-10 h-10 text-xl flex items-center justify-center">
+    <span className="text-white font-bold bg-amber-300 rounded-lg shadow-sm w-10 h-10 text-xl flex items-center justify-center">
   {columnTasks.length}
 </span>
 
@@ -100,20 +104,23 @@ const KanbanBoard: React.FC = () => {
                           {...provided.draggableProps}
                           {...provided.dragHandleProps}
                         >
-                          <Card className="mb-3 p-3 bg-white shadow-md rounded-md mt-5">
-                            <div className="flex items-center gap-2">
-                              <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
-                            </div>
+                          <Card className="mb-3  bg-white  rounded-md mt-5 border-2 p-0 shadow-none">
+                          <div className="flex justify-between items-center w-full">
+  <div className="flex items-center gap-2">
+    <h1 className="font-bold">Title:</h1> 
+    <span>{task.title}</span>
+  </div>
+  <span className="text-gray-600">({task.date})</span>
+</div>
+
                             <div className="flex items-center gap-2">
                               <h1 className="font-bold">Priority:</h1> <span>{task.priority}</span>
                             </div>
                             <div className="flex items-center gap-2">
                               <h1 className="font-bold">Customer Name:</h1> <span>{task.CustomerName}</span>
                             </div>
-                            <div className="flex items-center gap-2">
-                              <h1 className="font-bold">Date:</h1> <span>{task.date}</span>
-                            </div>
-                            <div className="flex items-center gap-2 justify-end">
+                          
+                            <div className="flex items-center  justify-end">
                               <Button
                                 icon="pi pi-eye cursor-pointer"
                                 className="text-xl focus:shadow-none"

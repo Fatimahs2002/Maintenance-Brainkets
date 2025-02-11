@@ -8,7 +8,7 @@ import SearchFilterAdd from "./components/SearchFilterAdd";
 const Page = () => {
   return (
    
-      <div>
+      <div className="">
           <div className="mt-10">
                 <SearchFilterAdd />
               </div>
