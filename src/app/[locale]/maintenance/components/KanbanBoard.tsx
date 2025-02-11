@@ -9,10 +9,9 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import { Dialog } from "primereact/dialog";
-import UpdateMaintenance from "./UpdateMaintenance";
-import IcodAdd from "./IconAdd";
 import IconAdd from "./IconAdd";
-
+import IconEdit from "./IconEdit";
+import IconDelete from "./IconDelete";
 interface MaintenanceTask {
   id: number;
   title: string;
@@ -37,53 +36,8 @@ const KanbanBoard: React.FC = () => {
   const [taskToDelete, setTaskToDelete] = useState<number | null>(null);
   const toast = useRef<Toast>(null);
 
-  const confirmDelete = (taskId: number) => {
-    setTaskToDelete(taskId);
-    confirmDialog({
-      header: (
-        <div className="flex items-center gap-3">
-          <span className="text-xl font-bold text-gray-800">Delete Task</span>
-        </div>
-      ),
-      message: (
-        <div className="flex items-center gap-4">
-          <span className="text-lg font-medium text-gray-700">
-            Are you sure you want to delete this task?
-          </span>
-        </div>
-      ),
-      className: "rounded-lg shadow-lg p-6 border border-gray-200 bg-white",
-      acceptClassName:
-        "p-button-danger bg-red-500 border-red-600 text-white px-4 py-2 rounded-lg shadow-md ml-3 mt-1",
-      rejectClassName:
-        "p-button-secondary bg-gray-300 text-gray-700 px-4 py-2 rounded-lg shadow-md mt-1",
-      accept: () => handleTaskDelete(taskId),
-      reject: () => {
-        toast.current?.show({
-          severity: "warn",
-          summary: "Cancelled",
-          detail: "Task was not deleted.",
-          life: 3000,
-        });
-      },
-    });
-  };
 
-  const handleTaskDelete = (taskId: number) => {
-    const updatedTasks = { ...tasks };
-    Object.keys(updatedTasks).forEach((column) => {
-      updatedTasks[column] = updatedTasks[column].filter((task) => task.id !== taskId);
-    });
-
-    setTasks(updatedTasks);
-
-    toast.current?.show({
-      severity: "info",
-      summary: "Task Deleted",
-      detail: "The task has been successfully deleted.",
-      life: 3000,
-    });
-  };
+ 
 
   const onDragEnd = (result: any) => {
     const { destination, source } = result;
@@ -107,20 +61,12 @@ const KanbanBoard: React.FC = () => {
       [endColumn]: newEndTasks,
     });
   };
-//for update
-const [visible, setVisible] = useState<boolean>(false)
+
 
 
 
   return (
     <div>
-      <Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
-               <UpdateMaintenance onClose={() => setVisible(false)}/>
-            </Dialog>
-      <Toast ref={toast} position="top-right" />
-      <ConfirmDialog />
-    
-
       <DragDropContext onDragEnd={onDragEnd}>
         <div className="flex gap-4 p-6">
           {Object.entries(tasks).map(([columnId, columnTasks]) => (
@@ -173,19 +119,8 @@ const [visible, setVisible] = useState<boolean>(false)
                                 className="text-xl focus:shadow-none"
                                 style={{ fontSize: "1.5rem" }}
                               />
-                              <Button
-                                icon="pi pi-pen-to-square cursor-pointer"
-                                className="text-xl focus:shadow-none"
-                                onClick={()=>{
-                                  setVisible(true)
-                                }
-                                }
-                              />
-                              <Button
-                                icon="pi pi-trash"
-                                className="text-xl text-red-500 focus:shadow-none"
-                                onClick={() => confirmDelete(task.id)}
-                              />
+                             <IconEdit />
+                           <IconDelete />
                             {columnId === "completed" && (
   <Button icon="pi pi-book" className="text-xl focus:shadow-none" />
 )}
