@@ -4,7 +4,6 @@ import LoginForm from "@/Components/authenticate/LoginForm";
 import { useRouter } from "next/navigation";
 import Loader from "@/common/loader/loader";
 
-
 const HomePage = () => {
   
   const router = useRouter();
@@ -26,7 +25,11 @@ const HomePage = () => {
   }
 
   return (
+    <>
     <LoginForm />
+
+    
+</>
   );
 };
 
