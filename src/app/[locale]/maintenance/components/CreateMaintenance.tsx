@@ -219,12 +219,12 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
   chooseOptions={{
     label: "Choose",
     icon: "pi pi-plus",
-    className: "bg-amber-300 hover:bg-amber-400 text-white px-4 py-2 rounded-lg focus:shadow-none",
+    className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none",
   }}
   uploadOptions={{
     label: "Upload",
     icon: "pi pi-upload",
-    className: "bg-gray-600 text-white px-4 rounded-md hover:bg-gray-500 focus:shadow-none",
+    className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
   }}
   cancelOptions={{
     label: "Clear",
@@ -277,9 +277,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
         <Button
           label="Add Maintenance"
           onClick={handleSubmit}
-          className="bg-amber-300
-         hover:bg-amber-400
-          text-white px-4 py-2 rounded-lg focus:shadow-none"
+          className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
         />
         <Button
         onClick={() => {
@@ -299,7 +297,7 @@ const CreateMaintenance = ({ onClose }: { onClose: () => void }) => {
         }}
           label="Cancel"
           
-          className="bg-gray-300 text-white px-4 py-2 rounded-md hover:bg-gray-400  focus:shadow-none "
+          className="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400 focus:shadow-none"
         />
       </div>
     </div>

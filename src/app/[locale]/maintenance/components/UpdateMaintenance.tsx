@@ -227,17 +227,17 @@ const HandelRemoveFile=()=>{
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
-            className: "bg-amber-300 hover:bg-amber-400 text-white px-4 py-2 rounded-lg focus:shadow-none" ,
+            className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" ,
           }}
           uploadOptions={{
             label: "Upload",
             icon: "pi pi-upload",
-            className: "bg-gray-600 text-white px-4 rounded-md hover:bg-gray-500 focus:shadow-none",
+            className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
           }}
           cancelOptions={{
             label: "Clear",
             icon: "pi pi-times",
-            className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600  focus:shadow-none",
+            className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:shadow-none",
           }}
           onSelect={(e) => {
             // setFileSelected(e.files.length > 0);
@@ -280,12 +280,10 @@ const HandelRemoveFile=()=>{
       </div>
 
       <div className="flex justify-between mt-6">
-        <Button label="Update Maintenance" onClick={handleSubmit} className="bg-amber-300
-         hover:bg-amber-400
-          text-white px-4 py-2 rounded-lg focus:shadow-none" />
-        <Button label="Cancel" className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 
-        focus:shadow-none
-        " 
+        <Button label="Update Maintenance" onClick={handleSubmit} 
+        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
+         />
+        <Button label="Cancel" className="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400 focus:shadow-none" 
       onClick={()=>{
         onClose()
       }}
