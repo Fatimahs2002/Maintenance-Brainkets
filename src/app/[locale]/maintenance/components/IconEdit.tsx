@@ -6,6 +6,9 @@ import { useState } from "react";
 
 import { Dialog } from "primereact/dialog";
 import UpdateMaintenance from "./UpdateMaintenance";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 const IconEdit = () => {
     //for update
     const [visible, setVisible] = useState<boolean>(false);

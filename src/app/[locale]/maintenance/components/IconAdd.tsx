@@ -5,6 +5,9 @@ import { useState } from "react";
 import {Link} from "react-router-dom"
 import { Dialog } from "primereact/dialog";
 import CreateMaintenance from "./CreateMaintenance";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 const IconAdd :React.FC= () => {
      const [visible, setVisible] = useState<boolean>(false);
    
