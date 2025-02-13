@@ -4,8 +4,8 @@ import LoginForm from "@/Components/authenticate/LoginForm";
 import { useRouter } from "next/navigation";
 import Loader from "@/common/loader/loader";
 
-
 const HomePage = () => {
+  
   const router = useRouter();
 
   const [loading, setLoading] = useState(true); // State to handle page rendering
@@ -25,8 +25,14 @@ const HomePage = () => {
   }
 
   return (
+    <>
     <LoginForm />
+
+    
+</>
   );
 };
 
 export default HomePage;
+
+
