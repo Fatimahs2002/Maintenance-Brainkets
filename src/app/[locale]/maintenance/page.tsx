@@ -8,11 +8,15 @@ import './Sidebarstyle.css';
 import Asset from './components/asset';
 import ViewMore from './components/viewtask'
         
-export default function Maintenance(){
+import KanbanBoard from "./components/KanbanBoard";
+import CreateMaintenance from "./components/CreateMaintenance";
+import UpdateMaintenance from "./components/UpdateMaintenance";
+const Page: React.FC = () => {
+
     const [visibleRight, setVisibleRight] = useState<boolean>(false);
     const [visibleLeft, setVisibleLeft] = useState<boolean>(false);
-    return(
-        <main>
+  return (
+    <main>
             <button className="bg-red-500" onClick={() => setVisibleRight(true)} >Task</button>
             <button className="bg-blue-500" onClick={() => setVisibleLeft(true)} >Assets</button>
             <Sidebar className="bg-white w-2/5 custom-left-sidebar" visible={visibleLeft} position="left" onHide={()=>setVisibleLeft(false)}>
@@ -22,5 +26,11 @@ export default function Maintenance(){
                 <ViewMore/>
             </Sidebar>
         </main>
-    );
-}
+    <div>
+   
+      <KanbanBoard />
+    </div>
+  );
+};
+
+export default Page;
