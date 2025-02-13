@@ -11,6 +11,7 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import SearchFilterAdd from "./SearchFilterAdd";
+import { Menu } from "primereact/menu";
 
 
 
@@ -41,16 +42,11 @@ const initialTasks: TasksState = {
   completed: [],
 };
 
-const KanbanBoard: React.FC<{ setShowCreate: (value: boolean) => void; setShowEdit: (value: boolean) => void }> = ({
-  setShowCreate,
-  setShowEdit,
-}) => {
+function KanbanBoard() {
   const [tasks, setTasks] = useState(initialTasks);
   const toast = useRef<Toast>(null);
 
-  const onEditClick = () => {
-    setShowEdit(true);
-  };
+
 
   const onDragEnd = (result: any) => {
     if (!result.destination) return;
@@ -79,7 +75,7 @@ const KanbanBoard: React.FC<{ setShowCreate: (value: boolean) => void; setShowEd
                     <div className="border-b-2 flex justify-between items-center pb-2 mb-2">
                       <h2 className="text-lg font-bold capitalize">{columnId}</h2>
                       <div className="flex items-center gap-2">
-                        <IconAdd onClick={() => setShowCreate(true)} />
+                        <IconAdd />
                         <span className="text-white font-bold bg-amber-300 rounded-lg shadow-sm w-10 h-10 flex items-center justify-center">
                           {columnTasks.length}
                         </span>
@@ -88,8 +84,8 @@ const KanbanBoard: React.FC<{ setShowCreate: (value: boolean) => void; setShowEd
                     {columnTasks.map((task, index) => (
                       <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                         {(provided) => (
-                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <Card className="mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none">
+                          <div className=" grid grid-cols-2 lg:grid-cols-1- md:grid-cols-1" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                            <Card className=" mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
                               <div className="flex justify-between items-center w-full">
                                 <div className="flex items-center gap-2">
                                   <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
@@ -104,9 +100,9 @@ const KanbanBoard: React.FC<{ setShowCreate: (value: boolean) => void; setShowEd
                               </div>
                               <div className="flex items-center justify-end">
                                 <Button icon="pi pi-eye cursor-pointer" className="text-xl focus:shadow-none" style={{ fontSize: "1.5rem" }} />
-                                <IconEdit onClick={onEditClick} />
+                                <IconEdit />
                                 <IconDelete />
-                                {columnId === "completed" && <Button icon="pi pi-book" className="text-xl focus:shadow-none" />}
+                                {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" />}
                               </div>
                             </Card>
                           </div>
@@ -123,7 +119,7 @@ const KanbanBoard: React.FC<{ setShowCreate: (value: boolean) => void; setShowEd
       </div>
     </>
   );
-};
+}
 
 export default KanbanBoard;
 
