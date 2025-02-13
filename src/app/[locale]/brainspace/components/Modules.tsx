@@ -25,7 +25,7 @@ const Modules: React.FC<{ additionalModules?: Module[] }> = ({ additionalModules
     try {
       const response = await fetch("https://posnew.smcare.net/v0_0_1-modules/get-modules", {
         headers: {
-          Authorization: `Bearer ${accessToken}`,
+          Authorization: ` ${accessToken}`,
           "Content-Type": "application/json",
         },
       });
