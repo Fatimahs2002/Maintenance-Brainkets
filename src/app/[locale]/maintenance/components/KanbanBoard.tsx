@@ -67,7 +67,7 @@ function KanbanBoard() {
       </div>
       <div className="p-4">
         <DragDropContext onDragEnd={onDragEnd}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid md:grid-cols-3 lg:grid-cols-3 gap-4">
             {Object.entries(tasks).map(([columnId, columnTasks]) => (
               <Droppable key={columnId} droppableId={columnId}>
                 {(provided) => (
@@ -84,23 +84,27 @@ function KanbanBoard() {
                     {columnTasks.map((task, index) => (
                       <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                         {(provided) => (
-                          <div className=" grid grid-cols-2 lg:grid-cols-1- md:grid-cols-1" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <Card className=" mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
-                              <div className="flex justify-between items-center w-full">
-                                <div className="flex items-center gap-2">
-                                  <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
+                          <div className=" grid  " ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                            <Card className=" mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none md: grid grid-cols-1">
+                              
+                                <div className="flex  gap-2">
+                                  <h1 className="font-bold md:text-sm lg:text-lg">Title:</h1> 
+                                  <span className="md:text-sm lg:text-lg">{task.title}</span>
                                 </div>
-                                <span className="text-gray-600">({task.date})</span>
+                                <div className="flex  gap-2">
+                                <h1 className="font-bold md:text-sm lg:text-lg">Date:</h1> 
+                                <span className="text-gray-600 md:text-sm lg:text-lg">({task.date})</span>
+                                </div>
+                            
+                              <div className="flex items-center gap-2 ">
+                                <h1 className="font-bold md:text-sm lg:text-lg">Priority:</h1> <span className="lg:text-lg md:text-sm">{task.priority}</span>
                               </div>
-                              <div className="flex items-center gap-2">
-                                <h1 className="font-bold">Priority:</h1> <span>{task.priority}</span>
+                              <div className="flex items-center gap-2 md:text-sm lg:text-lg">
+                                <h1 className="font-bold md:text-sm lg:text-lg">Customer Name:</h1> <span className=" lg:text-lg md:text-sm">{task.CustomerName}</span>
                               </div>
-                              <div className="flex items-center gap-2">
-                                <h1 className="font-bold">Customer Name:</h1> <span>{task.CustomerName}</span>
-                              </div>
-                              <div className="flex items-center justify-end">
-                                <Button icon="pi pi-eye cursor-pointer" className="text-xl focus:shadow-none" style={{ fontSize: "1.5rem" }} />
-                                <IconEdit />
+                              <div className="flex items-center justify-end pt-2">
+                                <Button icon="pi pi-eye cursor-pointer" className="text-xm md:text-sm focus:shadow-none" style={{ fontSize: "1.5rem" }} />
+                                <IconEdit  />
                                 <IconDelete />
                                 {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" />}
                               </div>

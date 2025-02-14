@@ -16,7 +16,7 @@ const IconAdd :React.FC= () => {
       
          <Button
            icon="pi pi-plus"
-           className="text-xl focus:shadow-none font-bold bg-white px-3 py-1 rounded-lg shadow-sm w-10 h-10" // Ensure alignment
+           className=" md:text-sm text-xl focus:shadow-none font-bold bg-white px-3 py-1 rounded-lg shadow-sm w-10 h-10" // Ensure alignment
            onClick={() => setVisible(true)}
          />
   
@@ -24,8 +24,9 @@ const IconAdd :React.FC= () => {
          <Dialog
            header=""
            visible={visible}
-           style={{ width: "50vw" }}
+          
            onHide={() => setVisible(false)}
+       
          >
            <CreateMaintenance onClose={() => setVisible(false)} />
          </Dialog>

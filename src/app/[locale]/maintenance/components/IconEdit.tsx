@@ -17,14 +17,14 @@ const IconEdit = () => {
        <>
           <Button
            icon="pi pi-pen-to-square cursor-pointer"
-          className="text-xl focus:shadow-none"
+          className="lg:text-xl focus:shadow-none md:text-sm"
       onClick={()=>{
       setVisible(true)
      }
       }
      />
 
-<Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
+<Dialog  className="" header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
                <UpdateMaintenance onClose={() => setVisible(false)}/>
             </Dialog>
    
