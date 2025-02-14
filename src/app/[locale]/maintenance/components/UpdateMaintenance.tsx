@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
-
+import { Editor, EditorTextChangeEvent } from "primereact/editor";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -83,6 +83,42 @@ const UpdateMaintenance = ({ onClose }: { onClose: () => void }) => {
 const HandelRemoveFile=()=>{
   setFilePreview("");
 }
+ //for description editor
+  const editorRef = useRef<Editor | null>(null);
+  const handleUndo = () => {
+    if (editorRef.current) {
+      const quill = editorRef.current.getQuill();
+      quill.history.undo();
+    }
+  };
+  
+  const handleRedo = () => {
+    if (editorRef.current) {
+      const quill = editorRef.current.getQuill();
+      quill.history.redo();
+    }
+  };
+  
+  const renderHeader = () => {
+    return (
+      <span className="ql-formats">
+      <button className="ql-bold" aria-label="Bold"></button>
+      <button className="ql-italic" aria-label="Italic"></button>
+      <button className="ql-list" value="bullet" aria-label="Unordered List"></button>
+      <button className="ql-list" value="ordered" aria-label="Ordered List"></button>
+      <button onClick={handleUndo} type="button" className="ql-undo" aria-label="Undo">
+  <i className="pi pi-undo rotate-0"></i> {/* Default direction */}
+</button>
+<button onClick={handleRedo} type="button" className="ql-undo" aria-label="Undo">
+  <i className="pi pi-undo rotate-180"></i> {/* Flipped direction */}
+</button>
+    </span>
+    );
+};
+
+  function setText(textValue: string): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     
@@ -101,7 +137,7 @@ const HandelRemoveFile=()=>{
               validateField("title", e.target.value);
             }}
             placeholder="Add title"
-            className="w-full p-2 rounded-lg bg-gray-100 h-10"
+            className="w-full p-2 rounded-lg bg-gray-100 h-10 focus:rounded-lg"
           />
           {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
@@ -128,16 +164,19 @@ const HandelRemoveFile=()=>{
           <label className="block mb-1 font-medium">
             Description <span className="text-red-500">*</span>
           </label>
-          <InputTextarea
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              validateField("description", e.target.value);
-            }}
-            placeholder="Description"
-            className="w-full p-2 rounded-lg bg-gray-100"
-            rows={4}
-          />
+       
+          <Editor 
+  ref={editorRef}
+  value={description} 
+  onTextChange={(e: EditorTextChangeEvent) => {
+    setDescription(e.textValue);
+    validateField("description", e.textValue); // Use e.textValue instead of e.target.value
+  }} 
+  headerTemplate={renderHeader()} 
+  className="rounded-lg bg-gray-100 border-none"  
+  placeholder="Add Description" 
+/>
+
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
 

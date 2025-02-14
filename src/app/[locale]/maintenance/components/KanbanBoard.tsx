@@ -10,7 +10,7 @@ import IconDelete from "./IconDelete";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import SearchFilterAdd from "./SearchFilterAdd";
+import SearchFilterAdd from "./SearchFilter";
 import { Menu } from "primereact/menu";
 
 
