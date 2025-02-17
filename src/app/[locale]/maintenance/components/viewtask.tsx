@@ -1,39 +1,56 @@
-const ViewMore = () => {
+import React from "react";
+
+interface view{
+    title: String;
+    description: String;
+    priority: String;
+    state: String;
+    date_added: String;
+    date_completed: String;
+    assigned_by: String;
+    assigned_to: String;
+    customer: String;
+    email: String;
+    phone: String;
+}
+
+const ViewMore : React.FC<view> = ({ title,description,priority,state,date_added,date_completed,
+    assigned_by,assigned_to,customer,email,phone }) => {
     return (
       <div>
         <h2 className="font-bold font-mono text-3xl mt-6 ml-3 text-gray-500">Task Content</h2>
             <h4 className="ml-5 mt-4 font-mono">
-                Title: fix door
+                Title: {title}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Description: Fix the door in first floor
+                Description: {description}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Priority: High
+                Priority: {priority}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                State: In Progress
+                State: {state}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Date Added: February 1, 2025
+                Date Added: {date_added}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Date Completed: February 2, 2025
+                Date Completed: {date_completed}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Assigned by: Ali Al Hajj Ali
+                Assigned by: {assigned_by}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Assigned to: Tia Zekhia
+                Assigned to: {assigned_to}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Customer: Ogero
+                Customer: {customer}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Email: alihjali2004@ogero.com
+                Email: {email}
             </h4>
             <h4 className="ml-5 mt-3 font-mono">
-                Phone: 71717097
+                Phone: {phone}
             </h4>
       </div>
     );

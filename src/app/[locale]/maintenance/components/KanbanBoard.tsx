@@ -13,6 +13,14 @@ import "primeicons/primeicons.css";
 import SearchFilterAdd from "./SearchFilterAdd";
 import { Menu } from "primereact/menu";
 
+import { Sidebar } from 'primereact/sidebar';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
+import '../Sidebarstyle.css';  
+import Asset from '../components/asset';
+import ViewMore from '../components/viewtask'
+
 
 
 interface Task {
@@ -60,6 +68,15 @@ function KanbanBoard() {
     setTasks({ ...tasks });
   };
 
+  const [visibleRight, setVisibleRight] = useState<boolean>(false);
+  const [visibleLeft, setVisibleLeft] = useState<boolean>(false);
+  const [selectedTask, setSelectedTask] = useState<Task | null>(null);
+
+  const handleViewMore = (task: Task) => {
+    setSelectedTask(task);
+    setVisibleRight(true);
+  };
+
   return (
     <>
       <div className="mt-10">
@@ -84,8 +101,8 @@ function KanbanBoard() {
                     {columnTasks.map((task, index) => (
                       <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
                         {(provided) => (
-                          <div className=" grid grid-cols-2 lg:grid-cols-1- md:grid-cols-1" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <Card className=" mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
+                          <div className="grid grid-cols-2 lg:grid-cols-1 md:grid-cols-1" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                            <Card className="mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none">
                               <div className="flex justify-between items-center w-full">
                                 <div className="flex items-center gap-2">
                                   <h1 className="font-bold">Title:</h1> <span>{task.title}</span>
@@ -99,7 +116,18 @@ function KanbanBoard() {
                                 <h1 className="font-bold">Customer Name:</h1> <span>{task.CustomerName}</span>
                               </div>
                               <div className="flex items-center justify-end">
-                                <Button icon="pi pi-eye cursor-pointer" className="text-xl focus:shadow-none" style={{ fontSize: "1.5rem" }} />
+                                <Button
+                                  onClick={() => handleViewMore(task)}
+                                  icon="pi pi-eye cursor-pointer"
+                                  className="text-xl focus:shadow-none"
+                                  style={{ fontSize: "1.5rem" }}
+                                />
+                                <Button
+                                  onClick={() => setVisibleLeft(true)}
+                                  icon="pi pi-box cursor-pointer"
+                                  className="text-xl focus:shadow-none"
+                                  style={{ fontSize: "1.5rem" }}
+                                />
                                 <IconEdit />
                                 <IconDelete />
                                 {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" />}
@@ -117,9 +145,28 @@ function KanbanBoard() {
           </div>
         </DragDropContext>
       </div>
+      <Sidebar className="bg-white w-2/5 custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
+        {selectedTask && (
+          <ViewMore
+            title={selectedTask.title}
+            description="N/A"
+            priority={selectedTask.priority}
+            state="N/A"
+            date_added={selectedTask.date}
+            date_completed="NA"
+            assigned_by="N/A"
+            assigned_to="N/A"  
+            customer={selectedTask.CustomerName}
+            email="N/A"  
+            phone="N/A" 
+          />
+        )}
+      </Sidebar>
+      <Sidebar className="bg-white w-2/5 custom-left-sidebar" visible={visibleLeft} position="left" onHide={() => setVisibleLeft(false)}>
+        <Asset />
+      </Sidebar>
     </>
   );
 }
 
 export default KanbanBoard;
-
