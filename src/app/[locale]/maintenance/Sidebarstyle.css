@@ -1,0 +1,15 @@
+/* Increase the size of the close (X) button */
+.custom-sidebar .p-sidebar-close {
+    font-size: 2rem;   /* Make the X icon bigger */
+    width: 2rem;       /* Increase button size */
+    height: 2rem;
+    top: 1rem;         /* Adjust position from the top */
+    right: 1rem;       /* Adjust position from the right */
+}
+.custom-left-sidebar .p-sidebar-close {
+    font-size: 2rem;   /* Make the X icon bigger */
+    width: 2rem;       /* Increase button size */
+    height: 2rem;
+    top: 1rem;         /* Adjust position from the top */
+    right: 1rem;       /* Adjust position from the right */
+}
