@@ -122,15 +122,9 @@ function KanbanBoard() {
                                   className="text-xl focus:shadow-none"
                                   style={{ fontSize: "1.5rem" }}
                                 />
-                                <Button
-                                  onClick={() => setVisibleLeft(true)}
-                                  icon="pi pi-box cursor-pointer"
-                                  className="text-xl focus:shadow-none"
-                                  style={{ fontSize: "1.5rem" }}
-                                />
                                 <IconEdit />
                                 <IconDelete />
-                                {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" />}
+                                {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" onClick={() => setVisibleLeft(true)}/>}
                               </div>
                             </Card>
                           </div>
@@ -145,7 +139,7 @@ function KanbanBoard() {
           </div>
         </DragDropContext>
       </div>
-      <Sidebar className="bg-white w-2/5 custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
+      <Sidebar className="bg-white min-w-fit custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
         {selectedTask && (
           <ViewMore
             title={selectedTask.title}
@@ -162,7 +156,7 @@ function KanbanBoard() {
           />
         )}
       </Sidebar>
-      <Sidebar className="bg-white w-2/5 custom-left-sidebar" visible={visibleLeft} position="left" onHide={() => setVisibleLeft(false)}>
+      <Sidebar className="bg-white min-w-fit custom-left-sidebar" visible={visibleLeft} position="left" onHide={() => setVisibleLeft(false)}>
         <Asset />
       </Sidebar>
     </>
