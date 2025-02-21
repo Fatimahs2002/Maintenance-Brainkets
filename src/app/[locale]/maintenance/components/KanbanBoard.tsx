@@ -7,7 +7,6 @@ import { Button } from "primereact/button";
 import { ListBox } from "primereact/listbox";
 import { ConfirmPopup } from 'primereact/confirmpopup'; // To use <ConfirmPopup> tag
 import { confirmPopup } from 'primereact/confirmpopup'; // To use confirmPopup method
-import { Sidebar } from "primereact/sidebar";
 import { Dialog } from "primereact/dialog";   
 import IconSm from "./IconSm";
 import IconAdd from "./IconAdd";
@@ -17,9 +16,7 @@ import SearchFilterAdd from "./SearchFilter";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import { Menu } from "primereact/menu";
-import Asset from "./asset";
-import ViewMore from "./viewtask";
+
 
 interface Task {
   id: number;
@@ -96,7 +93,7 @@ function KanbanBoard() {
       setTasks(updatedTasks);
     }
   };
-
+  
   return (
     <>
       <div className="mt-10">
@@ -120,81 +117,78 @@ function KanbanBoard() {
       )}
 
       <div className="p-4">
-        <DragDropContext onDragEnd={onDragEnd}>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {Object.entries(tasks).map(([columnId, columnTasks]) => (
-              <Droppable key={columnId} droppableId={columnId}>
-                {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} className="bg-gray-100 p-4 rounded-lg border shadow-sm min-h-[200px]">
-                    <div className="border-b-2 flex justify-between items-center pb-2 mb-2">
-                      <h2 className="text-lg font-bold capitalize">{columnId}</h2>
-                      <div className="flex items-center gap-2">
-                        <IconAdd />
-                        <span className="text-white font-bold bg-amber-300 rounded-lg shadow-sm w-10 h-10 flex items-center justify-center">
-                          {columnTasks.length}
-                        </span>
+        <DragDropContext onDragEnd={onDragEnd} >
+          <div className={`grid ${isSmallScreen ? "grid-cols-1" : "md:grid-cols-3 lg:grid-cols-3"} gap-4 pt-2`}>
+            {Object.entries(tasks)
+              .filter(([columnId]) => !isSmallScreen || columnId === selectedColumn)
+              .map(([columnId, columnTasks]) => (
+                <Droppable key={columnId} droppableId={columnId}>
+                  {(provided) => (
+                    <div ref={provided.innerRef} {...provided.droppableProps} className="bg-gray-100 p-4 rounded-lg border shadow-sm min-h-[200px]">
+                      <div className="border-b-2 flex justify-between items-center pb-2 mb-2">
+                        <h2 className="text-lg font-bold capitalize">{columnId}</h2>
+                        <div className="flex items-center gap-2">
+                          <IconAdd />
+                          <span className="text-white font-bold bg-amber-300 rounded-lg shadow-sm w-10 h-10 flex items-center justify-center">
+                            {columnTasks.length}
+                          </span>
+                        </div>
                       </div>
-                    </div>
-                    {columnTasks.map((task, index) => (
-                      <Draggable key={task.id} draggableId={task.id.toString()} index={index}>
-                        {(provided) => (
-                          <div className=" grid grid-cols-2 lg:grid-cols-1- md:grid-cols-1" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                            <Card className=" mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
-                              <div className="flex justify-between items-center w-full">
+
+                      {columnTasks.map((task, index) => (
+                        
+                        <Draggable key={task.id} draggableId={task.id.toString()} index={index} isDragDisabled={isSmallScreen}>
+                          {(provided) => (
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                              <Card className="mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
+                            
+                              <IconSm taskId={task.id} currentStatus={columnId} onMoveTask={moveTask} />
+
+
+  
+                         <div className="flex gap-2">
+                                  <h1 className="font-bold md:text-sm lg:text-lg">Title:</h1>
+                                  <span className="md:text-sm lg:text-lg">{task.title}</span>
+                                </div>
+                                <div className="flex gap-2">
+                                  <h1 className="font-bold md:text-sm lg:text-lg">Date:</h1>
+                                  <span className="text-gray-600 md:text-sm lg:text-lg">({task.date})</span>
+                                </div>
                                 <div className="flex items-center gap-2">
                                   <h1 className="font-bold md:text-sm lg:text-lg">Priority:</h1>
                                   <span className="lg:text-lg md:text-sm">{task.priority}</span>
                                 </div>
-                                <span className="text-gray-600">({task.date})</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h1 className="font-bold">Priority:</h1> <span>{task.priority}</span>
-                              </div>
-                              <div className="flex items-center gap-2">
-                                <h1 className="font-bold">Customer Name:</h1> <span>{task.CustomerName}</span>
-                              </div>
-                              <div className="flex items-center justify-end">
-                                <Button icon="pi pi-eye cursor-pointer" className="text-xl focus:shadow-none" style={{ fontSize: "1.5rem" }} />
-                                <IconEdit />
-                                <IconDelete />
-                                {columnId === "completed" && <Button icon="pi pi-list-check" className="text-xl focus:shadow-none" />}
-                              </div>
-                            </Card>
-                          </div>
-                        )}
-                      </Draggable>
-                    ))}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            ))}
+                                <div className="flex items-center gap-2 md:text-sm lg:text-lg">
+                                  <h1 className="font-bold md:text-sm lg:text-lg">Customer Name:</h1>
+                                  <span className="lg:text-lg md:text-sm">{task.CustomerName}</span>
+                                </div>
+                                {!isSmallScreen && (
+                                <div className="flex  gap-2 items-center justify-end pt-2">
+                                  <Button icon="  pi pi-eye cursor-pointer" className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-10 h-10 flex items-center justify-center " style={{ fontSize: "1.5rem" }} />
+                               <span  className=" cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-10 h-10 flex items-center justify-center">
+                                  <IconEdit />
+                                  </span>
+                                  <span  className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-10 h-10 flex items-center justify-center">
+                                  <IconDelete />
+                                  </span>
+                                  {columnId === "completed" && <Button icon="pi pi-list-check" className=" cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-gray-500 hover:bg-600 rounded-lg w-10 h-10 flex items-center justify-center" />}
+                                </div>
+                                )}
+                              </Card>
+                            </div>
+                          )}
+                        </Draggable>
+                      ))}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              ))}
           </div>
         </DragDropContext>
       </div>
-      {/* <Sidebar className="bg-white min-w-fit custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
-        {selectedTask && (
-          <ViewMore
-            title={selectedTask.title}
-            description="N/A"
-            priority={selectedTask.priority}
-            state="N/A"
-            date_added={selectedTask.date}
-            date_completed="NA"
-            assigned_by="N/A"
-            assigned_to="N/A"  
-            customer={selectedTask.CustomerName}
-            email="N/A"  
-            phone="N/A" 
-          />
-        )}
-      </Sidebar>
-      <Sidebar className="bg-white min-w-fit custom-left-sidebar" visible={visibleLeft} position="left" onHide={() => setVisibleLeft(false)}>
-        <Asset />
-      </Sidebar> */}
     </>
   );
 }
 
 export default KanbanBoard;
-
