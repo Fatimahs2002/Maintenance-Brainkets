@@ -37,7 +37,7 @@ const SearchFilterAdd: React.FC = () => {
       options={priorityOptions}
       optionLabel="label"
       optionValue="value"
-      className="w-40"
+      className="lg:w-40"
       onChange={(e: DropdownChangeEvent) => setSelectedPriority(e.value)}
     />
 
@@ -45,8 +45,10 @@ const SearchFilterAdd: React.FC = () => {
       value={searchTerm}
       onChange={(e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value)}
       placeholder="Search..."
-      className="h-10 border border-gray-300 px-3 rounded-lg w-64 focus:rounded-lg"
+      className="h-10 border border-gray-300 px-3 rounded-lg lg:w-64 w-40 focus:rounded-lg "
+    
     />
+
   </div>
 </div>
 

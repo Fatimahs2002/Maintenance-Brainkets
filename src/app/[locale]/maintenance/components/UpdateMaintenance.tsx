@@ -5,7 +5,7 @@ import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
 import { Dropdown } from "primereact/dropdown";
 import { FileUpload } from "primereact/fileupload";
-
+import { Editor, EditorTextChangeEvent } from "primereact/editor";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
@@ -83,11 +83,47 @@ const UpdateMaintenance = ({ onClose }: { onClose: () => void }) => {
 const HandelRemoveFile=()=>{
   setFilePreview("");
 }
+ //for description editor
+  const editorRef = useRef<Editor | null>(null);
+  const handleUndo = () => {
+    if (editorRef.current) {
+      const quill = editorRef.current.getQuill();
+      quill.history.undo();
+    }
+  };
+  
+  const handleRedo = () => {
+    if (editorRef.current) {
+      const quill = editorRef.current.getQuill();
+      quill.history.redo();
+    }
+  };
+  
+  const renderHeader = () => {
+    return (
+      <span className="ql-formats">
+      <button className="ql-bold" aria-label="Bold"></button>
+      <button className="ql-italic" aria-label="Italic"></button>
+      <button className="ql-list" value="bullet" aria-label="Unordered List"></button>
+      <button className="ql-list" value="ordered" aria-label="Ordered List"></button>
+      <button onClick={handleUndo} type="button" className="ql-undo" aria-label="Undo">
+  <i className="pi pi-undo rotate-0"></i> {/* Default direction */}
+</button>
+<button onClick={handleRedo} type="button" className="ql-undo" aria-label="Undo">
+  <i className="pi pi-undo rotate-180"></i> {/* Flipped direction */}
+</button>
+    </span>
+    );
+};
+
+  function setText(textValue: string): void {
+    throw new Error("Function not implemented.");
+  }
 
   return (
     
-    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl mt-11">
-      <h2 className="text-center text-lg font-semibold mb-4">Update Maintenance</h2>
+    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl ">
+     
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -101,7 +137,7 @@ const HandelRemoveFile=()=>{
               validateField("title", e.target.value);
             }}
             placeholder="Add title"
-            className="w-full p-2 rounded-lg bg-gray-100 h-10"
+            className="w-full p-2 rounded-lg bg-gray-100 h-10 focus:rounded-lg"
           />
           {errors.title && <p className="text-red-500 text-sm">{errors.title}</p>}
         </div>
@@ -128,16 +164,19 @@ const HandelRemoveFile=()=>{
           <label className="block mb-1 font-medium">
             Description <span className="text-red-500">*</span>
           </label>
-          <InputTextarea
-            value={description}
-            onChange={(e) => {
-              setDescription(e.target.value);
-              validateField("description", e.target.value);
-            }}
-            placeholder="Description"
-            className="w-full p-2 rounded-lg bg-gray-100"
-            rows={4}
-          />
+       
+          <Editor 
+  ref={editorRef}
+  value={description} 
+  onTextChange={(e: EditorTextChangeEvent) => {
+    setDescription(e.textValue);
+    validateField("description", e.textValue); // Use e.textValue instead of e.target.value
+  }} 
+  headerTemplate={renderHeader()} 
+  className="rounded-lg bg-gray-100 border-none"  
+  placeholder="Add Description" 
+/>
+
           {errors.description && <p className="text-red-500 text-sm">{errors.description}</p>}
         </div>
 
@@ -186,7 +225,7 @@ const HandelRemoveFile=()=>{
     <Button
       label="Clear"
       icon="pi pi-times"
-      className="bg-red-500 text-white px-4 py-2 h-10 rounded-md hover:bg-red-600 focus:shadow-none"
+      className="px-1 py-1 text-sm bg-red-500 text-white lg:px-4 lg:py-2 lg:text-xl h-10 rounded-md hover:bg-red-600 focus:shadow-none"
     onClick={HandelRemoveFile}
     />
   </div>
@@ -227,17 +266,17 @@ const HandelRemoveFile=()=>{
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
-            className: "bg-amber-300 hover:bg-amber-400 text-white px-4 py-2 rounded-lg focus:shadow-none" ,
+            className: " px-1 py-1 text-sm bg-blue-500 text-white px-4 py-2 rounded-md lg:px-4 lg:py-2 lg:text-xl hover:bg-blue-600 focus:shadow-none" ,
           }}
           uploadOptions={{
             label: "Upload",
             icon: "pi pi-upload",
-            className: "bg-gray-600 text-white px-4 rounded-md hover:bg-gray-500 focus:shadow-none",
+            className: " px-1 py-1 text-sm bg-green-500 text-white   lg:px-4 lg:py-2 lg:text-xl rounded-md hover:bg-green-600 focus:shadow-none",
           }}
           cancelOptions={{
             label: "Clear",
             icon: "pi pi-times",
-            className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600  focus:shadow-none",
+            className: " px-1 py-1 text-sm bg-red-500 text-white lg:px-4 lg:py-2 lg:text-xl rounded-md hover:bg-red-600 focus:shadow-none",
           }}
           onSelect={(e) => {
             // setFileSelected(e.files.length > 0);
@@ -280,12 +319,10 @@ const HandelRemoveFile=()=>{
       </div>
 
       <div className="flex justify-between mt-6">
-        <Button label="Update Maintenance" onClick={handleSubmit} className="bg-amber-300
-         hover:bg-amber-400
-          text-white px-4 py-2 rounded-lg focus:shadow-none" />
-        <Button label="Cancel" className="bg-gray-400 text-white px-4 py-2 rounded-md hover:bg-gray-500 
-        focus:shadow-none
-        " 
+        <Button label="Update Maintenance" onClick={handleSubmit} 
+        className=" px-1 py-1 text-sm lg:text-xl bg-blue-500 text-white lg:px-4 lg:py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
+         />
+        <Button label="Cancel" className=" px-1 py-1 text-sm lg:text-xl bg-gray-300 text-black lg:px-4 lg:py-2 rounded-md hover:bg-gray-400 focus:shadow-none" 
       onClick={()=>{
         onClose()
       }}

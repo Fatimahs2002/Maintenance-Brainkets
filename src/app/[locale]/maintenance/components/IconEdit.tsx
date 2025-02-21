@@ -1,39 +1,37 @@
-
-"use client";
-import React from "react";
+import React, { useState } from "react";
 import { Button } from "primereact/button";
-import { useState } from "react";
-
 import { Dialog } from "primereact/dialog";
-import UpdateMaintenance from "./UpdateMaintenance";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
-const IconEdit = () => {
-    //for update
-    const [visible, setVisible] = useState<boolean>(false);
-   
-     return (
-       <>
-          <Button
-           icon="pi pi-pen-to-square cursor-pointer"
-          className="text-xl focus:shadow-none"
-      onClick={()=>{
-      setVisible(true)
-     }
-      }
-     />
+import UpdateMaintenance from "./UpdateMaintenance"; // Import your UpdateMaintenance component
 
-<Dialog header="" visible={visible} style={{ width: '50vw' }} onHide={() => {if (!visible) return; setVisible(false); }}>
-               <UpdateMaintenance onClose={() => setVisible(false)}/>
-            </Dialog>
-   
-     
-       </>
-     );
-   };
-   
+interface IconEditProps {
+  className?: string;
+}
+
+const IconEdit: React.FC<IconEditProps> = ({ className = "" }) => {
+  const [visible, setVisible] = useState(false);
+
+  return (
+    <>
+      <Button
+        icon="pi pi-pen-to-square"
+        className={`lg:text-xl md:text-sm focus:shadow-none ${className}`}
+        onClick={() => setVisible(true)}
+      />
+
+      <Dialog
+        visible={visible}
+        onHide={() => setVisible(false)}
+        header="Update Maintenance"
+        className="lg:w-1/2"
+        modal
+        draggable={false}
+        style={{ zIndex: 1000 }}
+      >
+        <UpdateMaintenance onClose={() => setVisible(false)} />
+      </Dialog>
+    </>
+  );
+};
 
 export default IconEdit;
-
 

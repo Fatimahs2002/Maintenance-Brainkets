@@ -16,16 +16,17 @@ const IconAdd :React.FC= () => {
       
          <Button
            icon="pi pi-plus"
-           className="text-xl focus:shadow-none font-bold bg-white px-3 py-1 rounded-lg shadow-sm w-10 h-10" // Ensure alignment
+           className=" md:text-sm text-xl focus:shadow-none font-bold bg-white px-3 py-1 rounded-lg shadow-sm w-10 h-10" // Ensure alignment
            onClick={() => setVisible(true)}
          />
   
 
          <Dialog
-           header=""
+           header="New Maintenance"
            visible={visible}
-           style={{ width: "50vw" }}
+        
            onHide={() => setVisible(false)}
+       className="lg:w-1/2"
          >
            <CreateMaintenance onClose={() => setVisible(false)} />
          </Dialog>
