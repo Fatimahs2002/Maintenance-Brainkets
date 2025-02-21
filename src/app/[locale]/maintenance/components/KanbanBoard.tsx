@@ -7,6 +7,7 @@ import { Button } from "primereact/button";
 import { ListBox } from "primereact/listbox";
 import { ConfirmPopup } from 'primereact/confirmpopup'; // To use <ConfirmPopup> tag
 import { confirmPopup } from 'primereact/confirmpopup'; // To use confirmPopup method
+import { Sidebar } from "primereact/sidebar";
 import { Dialog } from "primereact/dialog";   
 import IconSm from "./IconSm";
 import IconAdd from "./IconAdd";
@@ -16,10 +17,9 @@ import SearchFilterAdd from "./SearchFilter";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import SearchFilterAdd from "./SearchFilterAdd";
 import { Menu } from "primereact/menu";
-
-
+import Asset from "./asset";
+import ViewMore from "./viewtask";
 
 interface Task {
   id: number;
@@ -172,7 +172,7 @@ function KanbanBoard() {
           </div>
         </DragDropContext>
       </div>
-      <Sidebar className="bg-white min-w-fit custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
+      {/* <Sidebar className="bg-white min-w-fit custom-sidebar" visible={visibleRight} position="right" onHide={() => setVisibleRight(false)}>
         {selectedTask && (
           <ViewMore
             title={selectedTask.title}
@@ -191,7 +191,7 @@ function KanbanBoard() {
       </Sidebar>
       <Sidebar className="bg-white min-w-fit custom-left-sidebar" visible={visibleLeft} position="left" onHide={() => setVisibleLeft(false)}>
         <Asset />
-      </Sidebar>
+      </Sidebar> */}
     </>
   );
 }
