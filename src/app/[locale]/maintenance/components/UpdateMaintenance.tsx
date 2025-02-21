@@ -122,8 +122,8 @@ const HandelRemoveFile=()=>{
 
   return (
     
-    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl mt-11">
-      <h2 className="text-center text-lg font-semibold mb-4">Update Maintenance</h2>
+    <div className="bg-white p-6 rounded-lg  w-full mx-auto max-w-3xl ">
+     
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div>
@@ -225,7 +225,7 @@ const HandelRemoveFile=()=>{
     <Button
       label="Clear"
       icon="pi pi-times"
-      className="bg-red-500 text-white px-4 py-2 h-10 rounded-md hover:bg-red-600 focus:shadow-none"
+      className="px-1 py-1 text-sm bg-red-500 text-white lg:px-4 lg:py-2 lg:text-xl h-10 rounded-md hover:bg-red-600 focus:shadow-none"
     onClick={HandelRemoveFile}
     />
   </div>
@@ -266,17 +266,17 @@ const HandelRemoveFile=()=>{
           chooseOptions={{
             label: "Choose",
             icon: "pi pi-plus",
-            className: "bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none" ,
+            className: " px-1 py-1 text-sm bg-blue-500 text-white px-4 py-2 rounded-md lg:px-4 lg:py-2 lg:text-xl hover:bg-blue-600 focus:shadow-none" ,
           }}
           uploadOptions={{
             label: "Upload",
             icon: "pi pi-upload",
-            className: "bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 focus:shadow-none",
+            className: " px-1 py-1 text-sm bg-green-500 text-white   lg:px-4 lg:py-2 lg:text-xl rounded-md hover:bg-green-600 focus:shadow-none",
           }}
           cancelOptions={{
             label: "Clear",
             icon: "pi pi-times",
-            className: "bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 focus:shadow-none",
+            className: " px-1 py-1 text-sm bg-red-500 text-white lg:px-4 lg:py-2 lg:text-xl rounded-md hover:bg-red-600 focus:shadow-none",
           }}
           onSelect={(e) => {
             // setFileSelected(e.files.length > 0);
@@ -320,9 +320,9 @@ const HandelRemoveFile=()=>{
 
       <div className="flex justify-between mt-6">
         <Button label="Update Maintenance" onClick={handleSubmit} 
-        className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
+        className=" px-1 py-1 text-sm lg:text-xl bg-blue-500 text-white lg:px-4 lg:py-2 rounded-md hover:bg-blue-600 focus:shadow-none"
          />
-        <Button label="Cancel" className="bg-gray-300 text-black px-4 py-2 rounded-md hover:bg-gray-400 focus:shadow-none" 
+        <Button label="Cancel" className=" px-1 py-1 text-sm lg:text-xl bg-gray-300 text-black lg:px-4 lg:py-2 rounded-md hover:bg-gray-400 focus:shadow-none" 
       onClick={()=>{
         onClose()
       }}

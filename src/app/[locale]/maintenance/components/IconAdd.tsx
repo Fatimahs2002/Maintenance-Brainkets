@@ -22,11 +22,11 @@ const IconAdd :React.FC= () => {
   
 
          <Dialog
-           header=""
+           header="New Maintenance"
            visible={visible}
-          
+        
            onHide={() => setVisible(false)}
-       
+       className="lg:w-1/2"
          >
            <CreateMaintenance onClose={() => setVisible(false)} />
          </Dialog>
