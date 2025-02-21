@@ -17,7 +17,7 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import IconView from "./IconView";
-
+import IconAssets from "./IconAssets";
 interface Task {
   id: number;
   title: string;
@@ -171,7 +171,7 @@ function KanbanBoard() {
                                   <span  className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-10 h-10 flex items-center justify-center">
                                   <IconDelete />
                                   </span>
-                                  {columnId === "completed" && <Button icon="pi pi-list-check" className=" cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-gray-500 hover:bg-600 rounded-lg w-10 h-10 flex items-center justify-center" />}
+                                  {columnId === "completed" && <IconAssets/>}
                                 </div>
                                 )}
                               </Card>

@@ -9,7 +9,7 @@ interface Item {
     status: string;
 }
 
-const  Asset: React.FC = () => {
+const  Assets: React.FC = () => {
   const [items, setItems] = useState<Item[]>([
     { description: '', title: '', price: 0, location:'', serial_number:'', status:'' }
   ]);
@@ -39,7 +39,7 @@ const  Asset: React.FC = () => {
   const total = items.reduce((acc, item) => acc + calculateItemTotal(item), 0);
 
   return (
-    <div className="p-6 max-w-3xl mx-auto">
+    <div className="p-6 ">
       <h2 className="text-2xl font-bold mb-6 text-center">Task Assets</h2>
       {items.map((item, index) => (
         <div key={index} className="mb-6 p-6 bg-gray-100 rounded-2xl shadow-md">
@@ -87,7 +87,7 @@ const  Asset: React.FC = () => {
               />
             </div>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4 ">
               <div>
               <label className="block text-sm font-medium text-gray-700">Location</label>
               <input 
@@ -124,7 +124,7 @@ const  Asset: React.FC = () => {
       <div className="flex justify-center space-x-4">
         <button 
           onClick={addItem} 
-          className="py-2 px-4 bg-black text-white font-semibold rounded-lg shadow-md hover:bg-gray-700 transition duration-200">
+          className="px-1 py-1 text-sm lg:text-xl bg-blue-500 text-white lg:px-4 lg:py-2 rounded-md hover:bg-blue-600 focus:shadow-none ">
           Add Stage
         </button>
         <button 
@@ -140,4 +140,4 @@ const  Asset: React.FC = () => {
   );
 };
 
-export default Asset;
+export default Assets;

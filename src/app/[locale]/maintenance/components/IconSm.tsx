@@ -10,6 +10,7 @@ import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import IconView from "./IconView";
+import IconAssets from "./IconAssets";
 interface IconSmProps {
   taskId: number;
   currentStatus: string;
@@ -61,10 +62,7 @@ const IconSm: React.FC<IconSmProps> = ({ taskId, currentStatus, onMoveTask }) =>
           />
 
           {currentStatus === "completed" && (
-            <Button
-              icon="pi pi-list-check"
-              className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-gray-500 hover:bg-gray-600 rounded-lg w-10 h-10 flex items-center justify-center"
-            />
+            <IconAssets />
           )}
 
           <Button
