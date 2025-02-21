@@ -9,7 +9,7 @@ import IconDelete from "./IconDelete";
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-
+import IconView from "./IconView";
 interface IconSmProps {
   taskId: number;
   currentStatus: string;
@@ -49,12 +49,8 @@ const IconSm: React.FC<IconSmProps> = ({ taskId, currentStatus, onMoveTask }) =>
         closable
       >
         <div className="flex gap-2">
-          <Button
-            icon="pi pi-eye"
-            className="md:text-sx lg:text-lg text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-10 h-10 flex items-center justify-center cursor-pointer focus:shadow-none"
-            style={{ fontSize: "1.5rem" }}
-          />
-
+         
+<IconView/>
           <IconEdit
             className="md:text-sx lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-10 h-10 flex items-center justify-center cursor-pointer focus:shadow-none"
             //onClick={() => setShowPopup(false)} // Close the popup
