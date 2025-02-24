@@ -7,7 +7,7 @@ import ViewMore from "./ViewMaintenance"; // Importing the correct ViewMore comp
 import "primereact/resources/themes/lara-light-blue/theme.css";
 import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
-import Assets from "./assets";
+import Assets from "./Assets";
 
 
 const IconAssets: React.FC = () => {
@@ -15,7 +15,7 @@ const IconAssets: React.FC = () => {
 
     return (
         <>
-           <Button icon="pi pi-list-check" className=" cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-gray-500 hover:bg-600 rounded-lg w-10 h-10 flex items-center justify-center" 
+           <Button icon="pi pi-list-check" className="md:w-8 md:h-8 lg:w-10 lg:h-10 cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-gray-500 hover:bg-600 rounded-lg w-10 h-10 flex items-center justify-center" 
            onClick={() => setVisible(true)}
            />
 

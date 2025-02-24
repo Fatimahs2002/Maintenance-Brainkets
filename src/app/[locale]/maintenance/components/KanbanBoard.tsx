@@ -147,32 +147,36 @@ function KanbanBoard() {
 
   
                          <div className="flex gap-2">
-                                  <h1 className="font-bold md:text-sm lg:text-lg">Title:</h1>
-                                  <span className="md:text-sm lg:text-lg">{task.title}</span>
+                                  <h1 className="font-bold md:text-xs lg:text-lg">Title:</h1>
+                                  <span className="md:text-xs lg:text-lg">{task.title}</span>
                                 </div>
                                 <div className="flex gap-2">
-                                  <h1 className="font-bold md:text-sm lg:text-lg">Date:</h1>
-                                  <span className="text-gray-600 md:text-sm lg:text-lg">({task.date})</span>
+                                  <h1 className="font-bold md:text-xs lg:text-lg">Date:</h1>
+                                  <span className="text-gray-600 md:text-xs lg:text-lg">({task.date})</span>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                  <h1 className="font-bold md:text-sm lg:text-lg">Priority:</h1>
-                                  <span className="lg:text-lg md:text-sm">{task.priority}</span>
+                                  <h1 className="font-bold md:text-xs lg:text-lg">Priority:</h1>
+                                  <span className="lg:text-lg md:text-xs">{task.priority}</span>
                                 </div>
-                                <div className="flex items-center gap-2 md:text-sm lg:text-lg">
-                                  <h1 className="font-bold md:text-sm lg:text-lg">Customer Name:</h1>
-                                  <span className="lg:text-lg md:text-sm">{task.CustomerName}</span>
+                                <div className="flex items-center gap-2 md:text-sx lg:text-lg">
+                                  <h1 className="font-bold md:text-xs lg:text-lg">Customer Name:</h1>
+                                  <span className="lg:text-lg md:text-xs">{task.CustomerName}</span>
                                 </div>
                                 {!isSmallScreen && (
-                                <div className="flex  gap-2 items-center justify-end pt-2">
-                                  <IconView />
-                               <span  className=" cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-10 h-10 flex items-center justify-center">
-                                  <IconEdit />
-                                  </span>
-                                  <span  className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-10 h-10 flex items-center justify-center">
-                                  <IconDelete />
-                                  </span>
-                                  {columnId === "completed" && <IconAssets/>}
-                                </div>
+                         <div className="flex gap-2 items-center justify-end pt-2">
+                         <IconView />
+                         
+                         <span className="lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-8 h-8  flex items-center justify-center">
+                           <IconEdit />
+                         </span>
+                         
+                         <span className=" lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-8 h-8  flex items-center justify-center">
+                           <IconDelete />
+                         </span>
+                         
+                         {columnId === "completed" && <IconAssets />}
+                       </div>
+                       
                                 )}
                               </Card>
                             </div>

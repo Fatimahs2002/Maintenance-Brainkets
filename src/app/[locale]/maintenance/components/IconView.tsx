@@ -30,7 +30,7 @@ const IconView: React.FC = () => {
         <>
             <Button
                 icon="pi pi-eye"
-                className="cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-10 h-10 flex items-center justify-center"
+                className="lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none md:text-sx lg:text-lg text-white bg-blue-500 hover:bg-blue-600 rounded-lg w-10 h-10 flex items-center justify-center"
                 style={{ fontSize: "1.5rem" }}
                 onClick={() => setVisible(true)}
             />
