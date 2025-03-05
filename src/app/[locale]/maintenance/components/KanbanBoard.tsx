@@ -4,20 +4,20 @@ import { DragDropContext, Droppable, Draggable } from "@hello-pangea/dnd";
 import { Card } from "primereact/card";
 import { Toast } from "primereact/toast";
 import { Button } from "primereact/button";
-import { ListBox } from "primereact/listbox";
-import { ConfirmPopup } from 'primereact/confirmpopup'; // To use <ConfirmPopup> tag
-import { confirmPopup } from 'primereact/confirmpopup'; // To use confirmPopup method
-import { Dialog } from "primereact/dialog";   
+import { Dropdown } from "primereact/dropdown";
+import { ConfirmPopup } from 'primereact/confirmpopup';
+import { Dialog } from "primereact/dialog";
+import SearchFilter from "./SearchFilter";
+import "primereact/resources/themes/lara-light-blue/theme.css";
+import "primereact/resources/primereact.min.css";
+import "primeicons/primeicons.css";
 import IconSm from "./IconSm";
 import IconAdd from "./IconAdd";
 import IconEdit from "./IconEdit";
 import IconDelete from "./IconDelete";
-import SearchFilterAdd from "./SearchFilter";
-import "primereact/resources/themes/lara-light-blue/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
 import IconView from "./IconView";
 import IconAssets from "./IconAssets";
+
 interface Task {
   id: number;
   title: string;
@@ -51,6 +51,9 @@ function KanbanBoard() {
   const [isSmallScreen, setIsSmallScreen] = useState<boolean>(window.innerWidth < 768);
   const [iconVisibility, setIconVisibility] = useState<{ [key: number]: boolean }>({});
   const [listboxVisibility, setListboxVisibility] = useState<boolean>(false);
+  // Search filter states
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedPriority, setSelectedPriority] = useState("all");
 
   useEffect(() => {
     const handleResize = () => setIsSmallScreen(window.innerWidth < 768);
@@ -74,7 +77,6 @@ function KanbanBoard() {
     }
   };
 
-
   const moveTask = (taskId: number, newStatus: string) => {
     let taskToMove: Task | null = null;
     const updatedTasks = { ...tasks };
@@ -86,30 +88,44 @@ function KanbanBoard() {
         taskToMove = updatedTasks[column].splice(taskIndex, 1)[0];
       }
     });
-  
-    // Add the task to the new column
-    if (taskToMove) {
-      updatedTasks[newStatus].push(taskToMove);
-      setTasks(updatedTasks);
-    }
-  };
-  
+   // Add the task to the new column
+   if (taskToMove) {
+    updatedTasks[newStatus].push(taskToMove);
+    setTasks(updatedTasks);
+  }
+};
+
+  // Filter tasks based on searchTerm and selectedPriority
+  const filteredTasks = Object.entries(tasks).reduce((acc, [columnId, columnTasks]) => {
+    const filteredColumnTasks = columnTasks.filter(task => {
+      const matchesSearch = task.title.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesPriority = selectedPriority === "all" || task.priority === selectedPriority;
+      return matchesSearch && matchesPriority;
+    });
+    acc[columnId] = filteredColumnTasks;  // Ensure column is always included even if empty
+    return acc;
+  }, {} as TasksState);
+
   return (
     <>
       <div className="mt-10">
-        <SearchFilterAdd />
-    
+        <SearchFilter
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          selectedPriority={selectedPriority}
+          setSelectedPriority={setSelectedPriority}
+        />
       </div>
 
       {isSmallScreen && (
-        <div className="flex justify-center gap-2 my-4 ">
-          {Object.keys(tasks).map((columnId) => (
+        <div className="flex justify-center gap-2 my-4">
+          {["pending", "inProgress", "completed"].map((columnId) => (
             <Button
               key={columnId}
               label={columnId}
               onClick={() => setSelectedColumn(columnId as keyof TasksState)}
-              className={`px-1 py-1 text-sm  rounded-md focus:shadow-none  ${
-                selectedColumn === columnId ? "bg-gray-200 text-black focus:shadow-none" : "bg-gray-100 text-black hover:bg-gray-200"
+              className={`px-1 py-1 text-sm rounded-md focus:shadow-none ${
+                selectedColumn === columnId ? "bg-gray-200 text-black" : "bg-gray-100 text-black hover:bg-gray-200"
               }`}
             />
           ))}
@@ -117,36 +133,37 @@ function KanbanBoard() {
       )}
 
       <div className="p-4">
-        <DragDropContext onDragEnd={onDragEnd} >
+        <DragDropContext onDragEnd={onDragEnd}>
           <div className={`grid ${isSmallScreen ? "grid-cols-1" : "md:grid-cols-3 lg:grid-cols-3"} gap-4 pt-2`}>
-            {Object.entries(tasks)
-              .filter(([columnId]) => !isSmallScreen || columnId === selectedColumn)
-              .map(([columnId, columnTasks]) => (
+            {Object.entries(filteredTasks).map(([columnId, columnTasks]) => {
+              // Only show selected column for small screens
+              if (isSmallScreen && columnId !== selectedColumn) return null;
+
+              return (
                 <Droppable key={columnId} droppableId={columnId}>
                   {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps} className="bg-gray-100 p-4 rounded-lg border shadow-sm min-h-[200px]">
+                    <div
+                      ref={provided.innerRef}
+                      {...provided.droppableProps}
+                      className="bg-gray-100 p-4 rounded-lg border shadow-sm min-h-[200px]"
+                    >
                       <div className="border-b-2 flex justify-between items-center pb-2 mb-2">
                         <h2 className="text-lg font-bold capitalize">{columnId}</h2>
                         <div className="flex items-center gap-2">
                           <IconAdd />
                           <span className="text-white font-bold bg-amber-300 rounded-lg shadow-sm w-10 h-10 flex items-center justify-center">
-                            {columnTasks.length}
+                            {columnTasks.length || "0"} {/* Display "0" if no tasks */}
                           </span>
                         </div>
                       </div>
 
                       {columnTasks.map((task, index) => (
-                        
                         <Draggable key={task.id} draggableId={task.id.toString()} index={index} isDragDisabled={isSmallScreen}>
                           {(provided) => (
                             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                              <Card className="mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none ">
-                            
-                              <IconSm taskId={task.id} currentStatus={columnId} onMoveTask={moveTask} />
-
-
-  
-                         <div className="flex gap-2">
+                              <Card className="mb-3 bg-white rounded-md mt-5 border-2 p-0 shadow-none">
+                                <IconSm taskId={task.id} currentStatus={columnId} onMoveTask={moveTask} />
+                                <div className="flex gap-2">
                                   <h1 className="font-bold md:text-xs lg:text-lg">Title:</h1>
                                   <span className="md:text-xs lg:text-lg">{task.title}</span>
                                 </div>
@@ -163,31 +180,29 @@ function KanbanBoard() {
                                   <span className="lg:text-lg md:text-xs">{task.CustomerName}</span>
                                 </div>
                                 {!isSmallScreen && (
-                         <div className="flex gap-2 items-center justify-end pt-2">
-                         <IconView />
-                         
-                         <span className="lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-8 h-8  flex items-center justify-center">
-                           <IconEdit />
-                         </span>
-                         
-                         <span className=" lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-8 h-8  flex items-center justify-center">
-                           <IconDelete />
-                         </span>
-                         
-                         {columnId === "completed" && <IconAssets />}
-                       </div>
-                       
+                                  <div className="flex gap-2 items-center justify-end pt-2">
+                                    <IconView />
+                                    <span className="lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-8 h-8 flex items-center justify-center">
+                                      <IconEdit />
+                                    </span>
+                                    <span className=" lg:w-10 lg:h-10 md:w-8 md:h-8 cursor-pointer focus:shadow-none text-sm md:text-base lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-8 h-8  flex items-center justify-center">
+                                      <IconDelete />
+                                    </span>
+                                    {columnId === "completed" && <IconAssets />}
+                                  </div>
                                 )}
                               </Card>
                             </div>
                           )}
                         </Draggable>
                       ))}
+
                       {provided.placeholder}
                     </div>
                   )}
                 </Droppable>
-              ))}
+              );
+            })}
           </div>
         </DragDropContext>
       </div>
@@ -196,3 +211,4 @@ function KanbanBoard() {
 }
 
 export default KanbanBoard;
+

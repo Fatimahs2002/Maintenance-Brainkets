@@ -52,10 +52,10 @@ const IconSm: React.FC<IconSmProps> = ({ taskId, currentStatus, onMoveTask }) =>
         <div className="flex gap-2">
          
 <IconView/>
-          <IconEdit
-            className="md:text-sx lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-10 h-10 flex items-center justify-center cursor-pointer focus:shadow-none"
-            //onClick={() => setShowPopup(false)} // Close the popup
-          />
+<IconEdit
+    className="md:text-sx lg:text-lg text-white bg-green-500 hover:bg-green-600 rounded-lg w-10 h-10 flex items-center justify-center cursor-pointer focus:shadow-none"
+    onClick={() => setShowPopup(false)} // Only close the Actions dialog
+/>
 
           <IconDelete
             className="md:text-sx lg:text-lg text-white bg-red-500 hover:bg-red-600 rounded-lg w-10 h-10 flex items-center justify-center cursor-pointer focus:shadow-none"
